@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+import excelupload.views
 import oauth.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', oauth.views.google_login),
     path('google-login/', include('allauth.urls')),
+    path('excel/', excelupload.views.excel_upload),
+    path('excel/uploaded', excelupload.views.uploaded, name = 'uploaded')
 ]
