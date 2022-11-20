@@ -1,7 +1,5 @@
-from django.shortcuts import redirect, render
-
-from excelupload.forms import DocumentForm
-from excelupload.models import Document
+import openpyxl
+import pandas as pd
 from django.shortcuts import redirect, render
 
 from excelupload.forms import DocumentForm
@@ -26,5 +24,16 @@ def excel_upload(request):
 
 def uploaded(request):
     document = Document.objects.latest('uploaded_at').document
-    data = (document.read())
-    return render(request, 'uploaded.html', {'document': data})
+    wb = openpyxl.load_workbook(document)
+    ws = wb['Col1']
+    excl = []
+    columns = []
+    for row in ws.iter_rows(values_only = True, min_row = 3, min_col = 2, max_col = 15):
+        if row[0] is not None and row[0].isdigit():
+            excl.append(row)
+        elif row[0] is not None:
+            columns = row
+    excl = pd.DataFrame(excl)
+    excl.columns = columns
+    excl = excl.loc[:, [col for col in excl.columns if col is not None]]
+    return render(request, 'uploaded.html', {'document': excl.to_html(justify = 'center', classes = "table table-bordered")})
