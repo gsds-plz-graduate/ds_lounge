@@ -12,8 +12,8 @@
 <form method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <button type="submit" class="btn btn-primary">Upload</button>
+    <a type="button" class="btn btn-danger" href="/">Return to Home</a>
 </form>
-<p><a href="/">Return to Home</a></p>
 </body>
 </html>
