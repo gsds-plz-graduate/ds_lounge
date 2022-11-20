@@ -4,3 +4,4 @@ requests
 social-auth-app-django
 django-allauth
 pandas
+openpyxl
