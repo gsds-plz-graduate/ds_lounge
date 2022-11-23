@@ -21,20 +21,41 @@
                     {% endfor %}
                 </select>
             </div>
+        {% elif field.label == "수학통계 기초 통과" or field.label == "컴퓨팅 기초 통과" or field.label == "논문자격시험 통과" %}
+            <div class="form-check">
+                <input type="{{ field.field.widget.input_type }}" class="" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}" value="{{ field.name }}">
+                <label for="{{ field.id_for_label }}" class="">{{ field.label }}</label>
+            </div>
         {% else %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}">
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}" value="{{ field.value }}">
             </div>
 
             {% if field.errors %}
                 <span style="color:red">{{ field.errors }}</span>
             {% endif %}
         {% endif %}
+        <br/>
     {% endfor %}
     <p></p>
     <button type="submit" class="btn btn-primary">업로드</button>
     <a type="button" class="btn btn-danger" href="/">Home</a>
 </form>
 </body>
+<script>
+    function checkbox_onclick() {
+        if ($('#id_bootMath').is(":checked")) {
+            $("#id_bootMath").val(true);
+        } else {
+            $("#id_bootMath").val(false);
+        }
+
+        if ($('#id_bootCom').is(":checked")) {
+            $("#id_bootCom").val(true);
+        } else {
+            $("#id_bootCom").val(false);
+        }
+    }
+</script>
 </html>
