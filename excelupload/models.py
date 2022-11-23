@@ -1,9 +1,13 @@
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, RegexValidator
 from django.db import models
 
 
 # Create your models here.
 class Document(models.Model):
-    description = models.CharField(max_length = 255, blank = True)
+    student_number = models.CharField(max_length = 10, validators = [RegexValidator(regex = r'20\d{2}-\d{5}/', inverse_match = True)])
     document = models.FileField(upload_to = 'documents/', validators = [FileExtensionValidator(allowed_extensions = ['xlsx'])])
     uploaded_at = models.DateTimeField(auto_now_add = True)
+    degree_choices = (('석사', '석사'), ('박사', '박사'), ('통합', '통합'))
+    degree = models.CharField(max_length = 10, choices = degree_choices, default = '석사')
+    bootMath = models.BooleanField(default = False)
+    bootCom = models.BooleanField(default = False)

@@ -11,9 +11,30 @@
 <body>
 <form method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Upload</button>
-    <a type="button" class="btn btn-danger" href="/">Return to Home</a>
+    {% for field in form %}
+        {% if field.label == "과정" %}
+            <div class="form-group">
+                <label for="degree">과정</label>
+                <select class="form-select" name="{{ field.name }}" id="degree">
+                    {% for v, k in form.fields.degree.choices %}
+                        <option value="{{ v }}" {% if form.fields.degree.value == v %} selected {% endif %}>{{ k }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% else %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}">
+            </div>
+
+            {% if field.errors %}
+                <span style="color:red">{{ field.errors }}</span>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    <p></p>
+    <button type="submit" class="btn btn-primary">업로드</button>
+    <a type="button" class="btn btn-danger" href="/">Home</a>
 </form>
 </body>
 </html>
