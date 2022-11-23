@@ -6,23 +6,14 @@
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <head>
     <meta charset="UTF-8">
-    <title>Group_project</title>
+    <title>404 Error</title>
 </head>
 <body>
-{% load static %}
-{% load socialaccount %}
-{% providers_media_js %}
-{% if user.is_authenticated %}
-    {% for account in user.socialaccount_set.all %}
-        <p>email: {{ account.extra_data.email }}</p>
-        <p>name: {{ account.extra_data.name }}</p>
-    {% endfor %}
-    <a href="/google-login/logout" role="button" class="btn btn-primary">로그아웃</a>
-    <a href="/excel/" role="button" class="btn btn-success">엑셀 업로드</a>
-{% else %}
-    <a href="{% provider_login_url 'google' method='oauth2' %}" role="button" class="btn btn-secondary">구글 로그인</a><br>
-{% endif %}
-
-
+<div class="text-center">
+    <div class="error mx-auto" data_text="404">
+        404
+    </div>
+    <p class="lead text-black-50 mb-5">PAGE NOT FOUND</p>
+</div>
 </body>
 </html>
