@@ -13,8 +13,6 @@ def excel_upload(request):
         if form.is_valid():
             form.save()
             return redirect('uploaded')
-        else:
-            raise Exception()
     else:
         form = DocumentForm()
     return render(request, 'excel.html', {
@@ -36,4 +34,5 @@ def uploaded(request):
     excl = pd.DataFrame(excl)
     excl.columns = columns
     excl = excl.loc[:, [col for col in excl.columns if col is not None]]
+    excl.to_csv("excl.csv")
     return render(request, 'uploaded.html', {'document': excl.to_html(justify = 'center', classes = "table table-bordered")})
