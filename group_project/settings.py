@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'oauth',
     'excelupload',
+    'recommendation',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -66,10 +67,12 @@ ROOT_URLCONF = 'group_project.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND' : 'django.template.backends.django.DjangoTemplates',
+        'DIRS'    : ['common/templates',
+                     'excelupload/templates',
+                     'oauth/templates'],
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS' : {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -135,17 +138,25 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'oauth', 'static'),
+    os.path.join(BASE_DIR, 'common', 'static'),
+    os.path.join(BASE_DIR, 'excelupload', 'static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google' : {
-        'SCOPE' : [
+    'google': {
+        'SCOPE'      : [
             'profile',
             'email'
         ],
-        'AUTH_PARAMS':{
+        'AUTH_PARAMS': {
             'access_type' : 'online',
         }
     }
