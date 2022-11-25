@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% block content %}
     <!-- Banner -->
     <section id="banner" class="major">
@@ -26,7 +27,11 @@
                     <img src="../../static/common/images/pic03.jpg" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/excel/" class="link">Graduation Checker</a></h3>
+                    {% if user.is_authenticated %}
+                        <h3><a href="/excel/" class="link">Graduation Checker</a></h3>
+                    {% else %}
+                        <h3><a href="{% provider_login_url 'google' method='oauth2' next='/excel/' %}" class="link">Graduation Checker</a></h3>
+                    {% endif %}
                     <p>log-in before implementation</p>
                 </header>
             </article>
