@@ -17,7 +17,7 @@
 <div id="wrapper">
     <!-- Header -->
     <header id="header">
-        <a href="../../common/templates/index.html" class="logo"><strong>BKMS</strong> <span>Team5</span></a>
+        <a href="/" class="logo"><strong>BKMS</strong> <span>Team5</span></a>
         <nav>
             <a href="#menu">Menu</a>
         </nav>
@@ -25,19 +25,14 @@
     <!-- Menu -->
     <nav id="menu">
         <ul class="links">
-            <li><a href="../../common/templates/index.html">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/excel/">Excel Upload</a></li>
-            <li><a href="../../common/templates/generic.html">Menu2</a></li>
+            <li><a href="../../common/templates/generic.html">Recommended subject</a></li>
             <li><a href="elements.html">Menu3</a></li>
         </ul>
         <ul class="actions stacked">
-
             <li><a href="#" class="button primary fit">Get Started</a></li>
             {% if user.is_authenticated %}
-                {#                {% for account in user.socialaccount_set.all %}#}
-                {#                    <p>email: {{ account.extra_data.email }}</p>#}
-                {#                    <p>name: {{ account.extra_data.name }}</p>#}
-                {#                {% endfor %}#}
                 <li><a href="/google-login/logout" class="button fit">Log Out</a></li>
             {% else %}
                 <li><a href="{% provider_login_url 'google' method='oauth2' %}" class="button fit">Log In</a></li>

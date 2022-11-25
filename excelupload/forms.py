@@ -4,18 +4,18 @@ from .models import Document
 
 
 class DocumentForm(forms.ModelForm):
-    degree = forms.ChoiceField(choices = Document.degree_choices, label = '과정')
+    degree = forms.ChoiceField(choices = Document.degree_choices, label = 'Course')
 
     class Meta:
         model = Document
-        fields = ('student_number', 'degree', 'document', 'bootMath', 'bootCom', 'paperTest')
+        fields = ('student_number', 'degree', 'bootMath', 'bootCom', 'paperTest', 'document')
         labels = {
-            'student_number': '학번',
-            'document'      : '성적',
-            'degree'        : '과정',
-            'bootMath'      : '수학통계 기초 통과',
-            'bootCom'       : '컴퓨팅 기초 통과',
-            'paperTest'     : '논문자격시험 통과'
+            'student_number': 'Student Number',
+            'degree'        : 'Course',
+            'bootMath'      : 'Passed Mathematics/Statistics',
+            'bootCom'       : 'Passed Computing',
+            'paperTest'     : 'Passed Qualification Exam',
+            'document'      : 'Upload Excel',
         }
         widgets = {
             'bootMath' : forms.CheckboxInput(),

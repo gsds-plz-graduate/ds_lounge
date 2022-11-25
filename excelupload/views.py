@@ -1,6 +1,5 @@
 import openpyxl
 import pandas as pd
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from check.models import CheckCourse
@@ -9,7 +8,7 @@ from excelupload.models import Document
 
 
 # Create your views here.
-@login_required
+
 def excel_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
