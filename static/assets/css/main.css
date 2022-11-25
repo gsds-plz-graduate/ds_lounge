@@ -1907,7 +1907,6 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-input[type="file"],
 select,
 textarea {
     -moz-appearance: none;
@@ -1931,7 +1930,6 @@ input[type="email"]:invalid,
 input[type="tel"]:invalid,
 input[type="search"]:invalid,
 input[type="url"]:invalid,
-input[type="file"]:invalid,
 select:invalid,
 textarea:invalid {
     box-shadow: none;
@@ -1943,7 +1941,6 @@ input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="search"]:focus,
 input[type="url"]:focus,
-input[type="file"]:focus,
 select:focus,
 textarea:focus {
     border-color: #9bf1ff;
@@ -1979,7 +1976,6 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-input[type="file"],
 select {
     height: 2.75em;
 }
@@ -2509,7 +2505,6 @@ table.alt tfoot {
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
-input[type="file"],
 button,
 .button {
     -moz-appearance: none;
@@ -2544,8 +2539,6 @@ input[type="reset"]:hover,
 input[type="reset"]:active,
 input[type="button"]:hover,
 input[type="button"]:active,
-input[type="file"]:hover,
-input[type="file"]:active,
 button:hover,
 button:active,
 .button:hover,
@@ -2557,7 +2550,6 @@ button:active,
 input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active,
-input[type="file"]:active,
 button:active,
 .button:active {
     background-color: rgba(155, 241, 255, 0.1);
@@ -2568,7 +2560,6 @@ button:active,
 input[type="submit"].icon:before,
 input[type="reset"].icon:before,
 input[type="button"].icon:before,
-input[type="file"].icon:before,
 button.icon:before,
 .button.icon:before {
     margin-right: 0.5em;
@@ -2577,7 +2568,6 @@ button.icon:before,
 input[type="submit"].fit,
 input[type="reset"].fit,
 input[type="button"].fit,
-input[type="file"].fit,
 button.fit,
 .button.fit {
     width: 100%;
@@ -2586,7 +2576,6 @@ button.fit,
 input[type="submit"].small,
 input[type="reset"].small,
 input[type="button"].small,
-input[type="file"].small,
 button.small,
 .button.small {
     font-size: 0.6em;
@@ -2595,7 +2584,6 @@ button.small,
 input[type="submit"].large,
 input[type="reset"].large,
 input[type="button"].large,
-input[type="file"].large,
 button.large,
 .button.large {
     font-size: 1.25em;
@@ -2606,7 +2594,6 @@ button.large,
 input[type="submit"].next,
 input[type="reset"].next,
 input[type="button"].next,
-input[type="file"].next,
 button.next,
 .button.next {
     padding-right: 4.5em;
@@ -2618,8 +2605,6 @@ input[type="reset"].next:before,
 input[type="reset"].next:after,
 input[type="button"].next:before,
 input[type="button"].next:after,
-input[type="file"].next:before,
-input[type="file"].next:after,
 button.next:before,
 button.next:after,
 .button.next:before,
@@ -2644,7 +2629,6 @@ button.next:after,
 input[type="submit"].next:before,
 input[type="reset"].next:before,
 input[type="button"].next:before,
-input[type="file"].next:before,
 button.next:before,
 .button.next:before {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='36px' height='24px' viewBox='0 0 36 24' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 2px%3B %7D%3C/style%3E%3Cline x1='0' y1='12' x2='34' y2='12' /%3E%3Cline x1='25' y1='4' x2='34' y2='12.5' /%3E%3Cline x1='25' y1='20' x2='34' y2='11.5' /%3E%3C/svg%3E");
@@ -2653,7 +2637,6 @@ button.next:before,
 input[type="submit"].next:after,
 input[type="reset"].next:after,
 input[type="button"].next:after,
-input[type="file"].next:after,
 button.next:after,
 .button.next:after {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='36px' height='24px' viewBox='0 0 36 24' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %239bf1ff%3B stroke-width: 2px%3B %7D%3C/style%3E%3Cline x1='0' y1='12' x2='34' y2='12' /%3E%3Cline x1='25' y1='4' x2='34' y2='12.5' /%3E%3Cline x1='25' y1='20' x2='34' y2='11.5' /%3E%3C/svg%3E");
@@ -2666,8 +2649,6 @@ input[type="reset"].next:hover:after,
 input[type="reset"].next:active:after,
 input[type="button"].next:hover:after,
 input[type="button"].next:active:after,
-input[type="file"].next:hover:after,
-input[type="file"].next:active:after,
 button.next:hover:after,
 button.next:active:after,
 .button.next:hover:after,
@@ -2680,7 +2661,6 @@ button.next:active:after,
     input[type="submit"].next,
     input[type="reset"].next,
     input[type="button"].next,
-    input[type="file"].next,
     button.next,
     .button.next {
         padding-right: 5em;
@@ -2691,7 +2671,6 @@ button.next:active:after,
 input[type="submit"].primary,
 input[type="reset"].primary,
 input[type="button"].primary,
-input[type="file"].primary,
 button.primary,
 .button.primary {
     background-color: #ffffff;
@@ -2704,8 +2683,6 @@ input[type="reset"].primary:hover,
 input[type="reset"].primary:active,
 input[type="button"].primary:hover,
 input[type="button"].primary:active,
-input[type="file"].primary:hover,
-input[type="file"].primary:active,
 button.primary:hover,
 button.primary:active,
 .button.primary:hover,
@@ -2717,7 +2694,6 @@ button.primary:active,
 input[type="submit"].primary:active,
 input[type="reset"].primary:active,
 input[type="button"].primary:active,
-input[type="file"].primary:active,
 button.primary:active,
 .button.primary:active {
     background-color: #53e3fb;
@@ -2728,8 +2704,6 @@ input[type="reset"].disabled,
 input[type="reset"]:disabled,
 input[type="button"].disabled,
 input[type="button"]:disabled,
-input[type="file"].disabled,
-input[type="file"]:disabled,
 button.disabled,
 button:disabled,
 .button.disabled,

@@ -6,3 +6,4 @@ django-allauth
 pandas
 openpyxl
 gunicorn
+django-dbconn-retry
