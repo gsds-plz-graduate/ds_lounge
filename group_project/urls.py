@@ -25,6 +25,5 @@ urlpatterns = [
     path('', common.views.home),
     path('google-login/', include('allauth.urls')),
     path('excel/', excelupload.views.excel_upload),
-    path('excel/uploaded', excelupload.views.uploaded, name = 'uploaded'),
-    path('check/', check.views.pleasegraduate)
+    path('check/uploaded', check.views.uploaded, name = 'uploaded')
 ]
