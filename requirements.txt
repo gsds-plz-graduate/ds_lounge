@@ -7,5 +7,5 @@ pandas==1.4.2
 openpyxl
 gunicorn
 django-dbconn-retry
-sklearn==1.0.2
+scikit-learn==1.0.2
 numpy==1.21.6
