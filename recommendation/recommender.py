@@ -3,6 +3,8 @@ import os
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
+rec = Recommender()
+
 
 class Recommender:
     def __init__(
