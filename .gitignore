@@ -1,2 +1,3 @@
 ./media/documents
-*.csv
+*.csv!
+/group_project/settings.py
