@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section id="studentinput">
+        <div class="inner">
+
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="fields">
+                    {% for field in form %}
+                        {% if field.label == "Course" %}
+                            <div class="field half">
+                                <label for="degree">Course</label>
+                                <select class="" name="{{ field.name }}" id="degree">
+                                    {% for v, k in form.fields.degree.choices %}
+                                        <option value="{{ v }}" {% if form.fields.degree.value == v %} selected {% endif %}>{{ k }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% elif field.label == "Student Number" %}
+                            <div class="field">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}" value="{{ field.value }}">
+                                {% if field.errors %}
+                                    <span style="color:red">{{ field.errors }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="field half">
+                        {% for field in form %}
+                            {% if field.label == "Passed Mathematics/Statistics" or field.label == "Passed Computing" or field.label == "Passed Qualification Exam" %}
+                                <div class="">
+                                    <input type="{{ field.field.widget.input_type }}" class="" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}" value="{{ field.name }}">
+                                    <label for="{{ field.id_for_label }}" class="">{{ field.label }}</label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {% for field in form %}
+                        {% if field.label == "Upload Excel" %}
+                            <div class="field">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" placeholder="{{ field.help_text }}" name="{{ field.name }}" value="{{ field.value }}">
+                                {% if field.errors %}
+                                    <span style="color:red">{{ field.errors }}</span>
+                                {% endif %}
+
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" value="Upload File" class="primary"></li>
+                    <li><input type="reset" value="Clear"></li>
+                </ul>
+            </form>
+        </div>
+    </section>
+    <script>
+        function checkbox_onclick() {
+            if ($('#id_boot_math').is(":checked")) {
+                $("#id_boot_math").val(true);
+            } else {
+                $("#id_boot_math").val(false);
+            }
+
+            if ($('#id_boot_com').is(":checked")) {
+                $("#id_boot_com").val(true);
+            } else {
+                $("#id_boot_com").val(false);
+            }
+
+            if ($('#id_paper_check').is(":checked")) {
+                $("#id_paper_check").val(true);
+            } else {
+                $("#id_paper_check").val(false);
+            }
+        }
+
+        window.onload = function () {
+            document.getElementById("id_student_number").readOnly = document.getElementById("id_student_number").value.length > 0;
+        }
+    </script>
+{% endblock %}

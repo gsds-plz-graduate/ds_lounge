@@ -1,0 +1,57 @@
+{% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SNU-GSDS-Home</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="is-preload">
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <a href="/oauth/static" class="logo"><strong>BKMS</strong> <span>Team5</span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+    <!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            <li><a href="/oauth/static">Home</a></li>
+            <li><a href="/excel/">Excel Upload</a></li>
+            <li><a href="common/generic.html">Recommended subject</a></li>
+            <li><a href="elements.html">Menu3</a></li>
+        </ul>
+        <ul class="actions stacked">
+            <li><a href="#" class="button primary fit">Get Started</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/google-login/logout" class="button fit">Log Out</a></li>
+            {% else %}
+                <li><a href="{% provider_login_url 'google' method='oauth2' %}" class="button fit">Log In</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+</div>
+<!-- Scripts -->
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'assets/js/browser.min.js' %}"></script>
+<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

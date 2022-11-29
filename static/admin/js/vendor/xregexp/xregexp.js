@@ -2845,7 +2845,6 @@
                 }
                 return isSupported;
             }
-
 // Check for ES6 `u` flag support
             var hasNativeU = hasNativeFlag('u');
 // Check for ES6 `y` flag support
