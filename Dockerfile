@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3-slim-bullseye
 ENV PYTHONUNBUFFERRED 1
 WORKDIR /web
 COPY . .
