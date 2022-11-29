@@ -15,7 +15,7 @@ class DocumentForm(forms.ModelForm):
             'boot_math'     : 'Passed Mathematics/Statistics',
             'boot_com'      : 'Passed Computing',
             'paper_test'    : 'Passed Qualification Exam',
-            'document'      : 'Upload Excel',
+            'document': 'Upload Excel'
         }
         widgets = {
             'boot_math' : forms.CheckboxInput(),

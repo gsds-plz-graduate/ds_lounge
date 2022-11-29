@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-import check.views
 import common.views
 import excelupload.views
 
@@ -25,5 +24,5 @@ urlpatterns = [
     path('', common.views.home),
     path('google-login/', include('allauth.urls')),
     path('excel/', excelupload.views.excel_upload),
-    path('check/uploaded', check.views.uploaded, name = 'uploaded')
+    path('check/', include('check.urls'))
 ]

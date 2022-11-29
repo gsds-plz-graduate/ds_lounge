@@ -1,14 +1,17 @@
 # Create your views here.
+
 import openpyxl
 import pandas as pd
+from django.contrib.auth.middleware import get_user
 from django.shortcuts import render
 
-from check.models import CheckCourse
+from check.models import CheckCourse, Enrollment
 from excelupload.models import Document
 
 
 def uploaded(request):
-    document_model = Document.objects.latest('uploaded_at')
+    user_id = get_user(request).id
+    document_model = Document.objects.filter(user_id = user_id).latest('uploaded_at')
     document = document_model.document
     admission_year = int(document_model.student_number[:4])
     wb = openpyxl.load_workbook(document)
@@ -23,9 +26,12 @@ def uploaded(request):
     excl = pd.DataFrame(excl)
     excl.columns = columns
     excl = excl.loc[:, [col for col in excl.columns if col is not None]]
-
+    up_id = document_model.up_id
     excl_changed = changer(input_df = excl, admission = admission_year)
-    return render(request, 'uploaded.html', {'document': excl_changed.to_html(justify = 'center', classes = "table alt")})
+    enrolled_list = [Enrollment.enrollment_from_df(row, up_id, request) for row in excl_changed.itertuples()]
+    Enrollment.objects.bulk_create(enrolled_list)
+    Document.objects.filter(user_id = user_id).order_by('uploaded_at')[1].document.delete(save = True)
+    return render(request, '../templates/excelupload/uploaded.html', {'document': excl_changed.to_html(justify = 'center', classes = "table alt")})
 
 
 def changer(input_df: pd.DataFrame, admission = 2022) -> pd.DataFrame:
@@ -68,25 +74,4 @@ def changer(input_df: pd.DataFrame, admission = 2022) -> pd.DataFrame:
 
 
 def delete_redundant():
-    pass
-
-
-def please_graduate(document_model: Document):
-    document = document_model.document
-    admission_year = int(document_model.student_number[:4])
-    wb = openpyxl.load_workbook(document)
-    ws = wb['Col1']
-    df = []
-    columns = []
-    for row in ws.iter_rows(values_only = True, min_row = 3, min_col = 2, max_col = 15):
-        if row[0] is not None and row[0].isdigit():
-            df.append(row)
-        elif row[0] is not None:
-            columns = row
-    df = pd.DataFrame(df)
-    df.columns = columns
-    df = df.loc[:, [col for col in df.columns if col is not None]]
-
-    df_changed = changer(input_df = df, admission = admission_year)
-
     pass
