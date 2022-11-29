@@ -65,9 +65,7 @@ ROOT_URLCONF = 'group_project.urls'
 TEMPLATES = [
     {
         'BACKEND' : 'django.template.backends.django.DjangoTemplates',
-        'DIRS'    : ['common/templates',
-                     'excelupload/templates',
-                     'oauth/templates'],
+        'DIRS'    : [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS' : {
             'context_processors': [
@@ -137,11 +135,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'oauth', 'static'),
-    os.path.join(BASE_DIR, 'common', 'static'),
-    os.path.join(BASE_DIR, 'excelupload', 'static')
-]
+STATICFILES_DIRS = []
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
