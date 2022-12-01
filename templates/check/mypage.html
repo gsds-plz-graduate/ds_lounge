@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="main" class="alt">
+        <!--One-->
+        <section id="one">
+            <div class="inner">
+                <header class="major">
+                    <h1 class="myptitle">
+                        My Page
+                    </h1>
+                </header>
+                {% if profile is None %}
+                    <p>Upload Excel Before Using This Page</p>
+                {% else %}
+                    <!-- Content -->
+                    <hr class="major"/>
+                    <div class="field">
+                        <!-- user info -->
+                        <ul>
+                            <li>
+                                <span class="left">Name : </span>
+                                <span class="right">{{ profile.user.first_name }}</span>
+                            </li>
+                            <li>
+                                <span class="left"> Student Number : </span>
+                                <span class="right">{{ profile.student_number }}</span>
+                            </li>
+                            <li>
+                                <span class="left">Course : </span>
+                                <span class="right">{{ profile.degree }}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <hr class="major"/>
+                    <br>
+                    <div class="mycontainer">
+
+                        <p class="table_title">
+                            This is your academic completion status as of the <span class="bolds">year 2022</span>.
+                            <span class="bolds">(This information is basic information based on the completion standards. For detailed completion requirements, please contact each department office.)</span>
+                        </p>
+
+
+                        <div class="myp_summarys">
+                            <div class="myp_in">
+                                <div class="myp_summary mp0">
+                                    <h3 class="i_title ">
+                                        <span>Earned Credit information</span> (Current Simulation Date : {{ profile.uploaded_at }})
+                                    </h3>
+                                    <div class="charttp2div">
+                                        <div style="text-align: center; margin-bottom: 10px;"></div>
+                                        <div class="table_type_b myp_surmmary_tbl stdcmplcond ">
+                                            <div class="in">
+                                                <table class="myp_desc mart10" summary="Earned Credits info">
+                                                    <caption>
+                                                        <span>Passed Conditions</span>
+                                                    </caption>
+                                                    <thead id="passedCondition"></thead>
+                                                    <tbody id="passedYn">
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <hr class="major"/>
+                                        <h3 class="i_title ">
+                                            <span>Graduation Requirement Simulation</span> by Major
+                                        </h3>
+                                        <div class="table_type_b myp_surmmary_tbl stdcmplcond ">
+                                            <div class="in">
+                                                <table summary="<span>Graduation Requirement Simulation</span> by Major">
+                                                    <caption>
+                                                        <span>Graduation Requirement Simulation</span> by Major
+                                                    </caption>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th scope="col" rowspan="2">Major Category</th>
+                                                        <th scope="col" rowspan="2">Major Name</th>
+                                                        <th scope="col" colspan="2">Major Required Courses Acquired Credits</th>
+                                                        <th scope="col" colspan="2">Major Elective Courses Credit Acquisition</th>
+                                                        <th scope="col" rowspan="2">Acquired Credits Total</th>
+                                                        <th scope="col" rowspan="2">Total GPA</th>
+                                                        <th scope="col" rowspan="2">GPA</th>
+                                                        <th scope="col" rowspan="2">Result</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col">Standard Credit</th>
+                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>
+                                                        <th scope="col">Standard Credit</th>
+                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Major</td>
+                                                        <td class="tal">Data Science Major</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td style="background-color:#fb000017;color:#f37060;">Fail</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+        function decodeHTMLEntities(text) {
+            var entities = [
+                ['amp', '&'],
+                ['apos', '\''],
+                ['#x27', '\''],
+                ['#x2F', '/'],
+                ['#39', '\''],
+                ['#47', '/'],
+                ['lt', '<'],
+                ['gt', '>'],
+                ['nbsp', ' '],
+                ['quot', '"']
+            ];
+
+            for (var i = 0, max = entities.length; i < max; ++i)
+                text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+            text = text.replace(/True/gi, 'true')
+            text = text.replace(/False/gi, 'false')
+            text = text.replace(/'/gi, '"')
+            return text;
+        }
+
+
+        let data = JSON.parse(decodeHTMLEntities('{{ profile.passed }}'))
+        let header = '<tr>'
+        let body = '<tr>'
+
+        for (const i in data) {
+            header += '<th>' + i + '</th>'
+            body += '<td>' + data[i] + '</td>'
+        }
+        header += '</tr>'
+        body += '</tr>'
+        $(header).appendTo($('#passedCondition'))
+        $(body).appendTo($('#passedYn'))
+
+    </script>
+{% endblock %}

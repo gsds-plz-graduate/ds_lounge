@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+import check.views
 import common.views
 import excelupload.views
 
@@ -26,7 +27,8 @@ urlpatterns = [
     path('', common.views.home),
     path('google-login/', include('allauth.urls')),
     path('excel/', excelupload.views.excel_upload),
-    path('check/', include('check.urls'))
+    path('check/', include('check.urls')),
+    path('mypage/', check.views.mypage, name = "mypage")
 ]
 urlpatterns += static(settings.STATIC_URL, document_root =settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

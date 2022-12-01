@@ -2,7 +2,7 @@
 {% load socialaccount %}
 {% providers_media_js %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <title>SNU-GSDS-Home</title>
     <meta charset="utf-8"/>
@@ -11,6 +11,7 @@
     <noscript>
         <link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}"/>
     </noscript>
+    <link rel="stylesheet" href="{% static 'common/css/styles.css' %}"/>
 </head>
 <body class="is-preload">
 <!-- Wrapper -->
@@ -26,13 +27,13 @@
     <nav id="menu">
         <ul class="links">
             <li><a href="/">Home</a></li>
-            <li><a href="/excel/">Excel Upload</a></li>
-            <li><a href="common/generic.html">Recommended subject</a></li>
-            <li><a href="elements.html">Menu3</a></li>
+            <li><a href="/excel/">Graduation Checker</a></li>
+            <li><a href="/">Recommended subjects</a></li>
+            <li><a href="/">Share Timetables</a></li>
         </ul>
         <ul class="actions stacked">
-            <li><a href="#" class="button primary fit">Get Started</a></li>
             {% if user.is_authenticated %}
+                <li><a href="/mypage/" class="button primary fit">My Page</a></li>
                 <li><a href="/google-login/logout" class="button fit">Log Out</a></li>
             {% else %}
                 <li><a href="{% provider_login_url 'google' method='oauth2' %}" class="button fit">Log In</a></li>
