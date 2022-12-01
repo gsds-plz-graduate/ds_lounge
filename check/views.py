@@ -3,9 +3,11 @@
 import openpyxl
 import pandas as pd
 from django.contrib.auth.middleware import get_user
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
-from check.models import CheckCourse, Enrollment
+from check.models import Enrollment
+from check.utils import can_graduate, changer, delete_redundant
+from common.models import Profile
 from excelupload.models import Document
 
 
@@ -31,47 +33,27 @@ def uploaded(request):
     enrolled_list = [Enrollment.enrollment_from_df(row, up_id, request) for row in excl_changed.itertuples()]
     Enrollment.objects.bulk_create(enrolled_list)
     Document.objects.filter(user_id = user_id).order_by('uploaded_at')[1].document.delete(save = True)
-    return render(request, '../templates/excelupload/uploaded.html', {'document': excl_changed.to_html(justify = 'center', classes = "table alt")})
+    return redirect('check:checked')
 
 
-def changer(input_df: pd.DataFrame, admission = 2022) -> pd.DataFrame:
-    size_row = len(input_df)
-    info = []
-    dic_year = {2020: 'yr_20', 2021: 'yr_21', 2022: 'yr_22'}
-    chck_col = dic_year[admission]
-    course = CheckCourse.objects.all()
-    for i in range(size_row):
-        one_row = list(input_df.iloc[i, :])
-        if pd.notna(one_row[0]):  # 그 로우의 1번째 인덱스가 수업연도여야 볼거야.
-            try:
-                int(one_row[0])
-            except ValueError:
-                continue
-            # 유의미한 row 필터링 완료.
-            new_info = [one_row[0], one_row[1], one_row[2]]
+def check(request):
+    user_id = request.user.id
+    my_document = Document.objects.filter(user_id = user_id).latest('uploaded_at')
+    my_enrollment = Enrollment.objects.filter(up_id = my_document.up_id)
+    my_enrollment = delete_redundant(my_enrollment)
+    my_enrollment_val = my_enrollment.values_list('year', 'cid', 'cname', 'crd', 'gpa', 'gbn', 're')
 
-            try:
-                course_key = course.get(cid = one_row[2]).cid_int  # 교과목 번호
+    passed = can_graduate(my_enrollment, my_document)
 
-            except CheckCourse.DoesNotExist:  # 처음보는 교과목번호에 대해서 처리 (해외연수등)
-                if one_row[4] == 3 or one_row[4] == '3':
-                    course_key = 10003
-                elif one_row[4] == 2 or one_row[4] == '2':
-                    course_key = 10002
-                else:
-                    course_key = 10001
-            new_info.append(course_key)
-
-            new_info.append(one_row[11])  # 과목명
-            new_info.append(int(one_row[4]))  # 학점
-            new_info.append(one_row[5])  # 성적
-            new_info.append(course.filter(cid_int = course_key).values_list(chck_col, flat = True)[0])  # 교과구분
-            new_info.append(one_row[8])  # 재수강
-            info.append(new_info)
-    grade = pd.DataFrame(info)
-    grade.columns = ['year', 'semester', 'cid', 'cid_int', 'cname', 'crd', 'gpa', 'gbn', 're']
-    return grade
+    new_profile = Profile(user = request.user, student_number = my_document.student_number, degree = my_document.degree, passed = passed)
+    new_profile.save()
+    return render(request, '../templates/check/mypage.html', {'profile': new_profile})
 
 
-def delete_redundant():
-    pass
+def mypage(request):
+    my_profile = {}
+    try:
+        my_profile = Profile.objects.filter(user_id = request.user.id).latest('uploaded_at')
+    except:
+        my_profile = ''
+    return render(request, '../templates/check/mypage.html', {'profile': my_profile})
