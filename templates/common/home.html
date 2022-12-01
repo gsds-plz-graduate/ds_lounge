@@ -28,12 +28,8 @@
                     <img src="{% static 'images/pic03.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    {% if user.is_authenticated %}
-                        <h3><a href="/excel/" class="link">Graduation Checker</a></h3>
-                    {% else %}
-                        <h3><a href="{% provider_login_url 'google' method='oauth2' next='/excel/' %}" class="link">Graduation Checker</a></h3>
-                    {% endif %}
-                    <p>log-in before implementation</p>
+                    <h3><a href="/mypage/" class="link">My Page</a></h3>
+                    <p>Check the graduation requirement examination history and personal settings</p>
                 </header>
             </article>
             <article>
@@ -41,8 +37,12 @@
                     <img src="{% static 'images/pic04.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/" class="link">Recommended Subjects</a></h3>
-                    <p>brief explanation of the section</p>
+                    {% if user.is_authenticated %}
+                        <h3><a href="/excel/" class="link">Graduation Checker</a></h3>
+                    {% else %}
+                        <h3><a href="{% provider_login_url 'google' method='oauth2' next='/excel/' %}" class="link">Graduation Checker</a></h3>
+                    {% endif %}
+                    <p>graduation requirement checker : log-in before implementation</p>
                 </header>
             </article>
             <article>
@@ -50,8 +50,8 @@
                     <img src="{% static 'images/pic05.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/" class="link">Consequat</a></h3>
-                    <p>Ipsum dolor sit amet</p>
+                    <h3><a href="/" class="link">Recommended Subjects</a></h3>
+                    <p>recommended customized subjects based on users and hashtags</p>
                 </header>
             </article>
             <article>
@@ -59,8 +59,8 @@
                     <img src="{% static 'images/pic06.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/" class="link">Etiam</a></h3>
-                    <p>Feugiat amet tempus</p>
+                    <h3><a href="/" class="link">Share Timetables</a></h3>
+                    <p>If you agree to share the timetable, you can view the timetable of other classmates</p>
                 </header>
             </article>
         </section>
