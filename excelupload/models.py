@@ -15,5 +15,5 @@ class Document(models.Model):
     boot_math = models.BooleanField(default = False)
     boot_com = models.BooleanField(default = False)
     paper_test = models.BooleanField(default = False)
+    share_yn = models.BooleanField(default = False)
     user = models.ForeignKey(app_settings.USER_MODEL, verbose_name = ("user"), on_delete = models.CASCADE)
-
