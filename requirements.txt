@@ -3,7 +3,9 @@ psycopg2
 requests
 social-auth-app-django
 django-allauth
-pandas
+pandas==1.4.2
 openpyxl
 gunicorn
 django-dbconn-retry
+scikit-learn==1.0.2
+numpy==1.21.6
