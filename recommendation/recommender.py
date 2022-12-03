@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
+import warnings
 
 import joblib
-import psycopg2
-from neo4j import GraphDatabase
 import numpy as np
 import pandas as pd
+import psycopg2
+from django.conf import settings
+from django.db.models import Max
+from neo4j import GraphDatabase
 from sklearn.metrics.pairwise import cosine_similarity
 
-import warnings
-warnings.filterwarnings(action='ignore')
+from check.models import CheckCourse, Enrollment
+
+warnings.filterwarnings(action = 'ignore')
+
+
 ## 다음 에러 때문에 filterwarnings 추가
 ## UserWarning: pandas only support SQLAlchemy connectable(engine/connection) ordatabase string URI or sqlite3 DBAPI2 connectionother DBAPI2 objects are not tested, please consider using SQLAlchemy
 
@@ -62,16 +68,27 @@ class Candidate_user_generate:
             # 테이블을 Pandas.Dataframe으로 추출 (user table, course table, enrollment table)
             self.user = pd.read_sql(
                 "SELECT id, username FROM auth_user ", conn
-            )  # user table
-            self.course = pd.read_sql(
-                "SELECT cid_int, cid, cname FROM check_course", conn
-            )  # check_course table
-            ################################################################################################ 12.02 max_up id 쿼리 수정
-            self.enroll = pd.read_sql(
-                "SELECT cid_int, user_id, cid from rec_enrollment where up_id in (select max(re.up_id) from rec_enrollment re group by re.user_id)",
-                conn,
-            )  # enroll table  # exp -> rec # 최신데이터만 가져오는 부분이 있어야 할듯 (user_id별로 가장 큰 up_id만 가져온다거나)
-            ################################################################################################
+            )
+
+            # user table
+            # self.course = pd.read_sql(
+            #     "SELECT cid_int, cid, cname FROM check_course", conn
+            # )  # check_course table
+
+            course = CheckCourse.objects.all().values('cid_int', 'cid', 'cname')
+            self.course = pd.DataFrame(list(course))
+
+            # ################################################################################################ 12.02 max_up id 쿼리 수정
+            # self.enroll = pd.read_sql(
+            #     "SELECT cid_int, user_id, cid from rec_enrollment where up_id in (select max(re.up_id) from rec_enrollment re group by re.user_id)",
+            #     conn,
+            # )  # enroll table  # exp -> rec # 최신데이터만 가져오는 부분이 있어야 할듯 (user_id별로 가장 큰 up_id만 가져온다거나)
+            # ################################################################################################
+            # self.enroll_idx = self.enroll.set_index("user_id")
+
+            rec_up_ids = list(Enrollment.objects.values('user_id').annotate(rec_up_id = Max('up_id')).values_list('rec_up_id', flat = True))
+            rec_enrollment = Enrollment.objects.filter(up_id__in = rec_up_ids).values('cid_int', 'user_id', 'cid')
+            self.enroll = pd.DataFrame(list(rec_enrollment))
             self.enroll_idx = self.enroll.set_index("user_id")
 
         except psycopg2.Error as e:
@@ -186,7 +203,7 @@ class Recommender:
     def __init__(
         self, file_dir="./", tfidf_fname="tfidf_tdm.pkl", cid_fname="cid_list.pkl"
     ):
-        self.tfidf = joblib.load(os.path.join(file_dir, tfidf_fname))
+        self.tfidf = joblib.load(os.path.join(settings.BASE_DIR, file_dir, tfidf_fname))
         self.cid_list = joblib.load(os.path.join(file_dir, cid_fname))
         ################################################################################################
         self.basecourse_list = [  # DS 필수과목 리스트
@@ -271,21 +288,21 @@ class Recommender:
         return self.get_content_based_candidates(grade_df, generated_list, k=k)
 
     def get_recommendation(
-        self, user_id, grade_df, include_undergrad=True, k=10, similar_user_cnt=3
+            self, user_id, grade_df, include_undergrad = True, k = 10, similar_user_cnt = 3
     ):
-        candidates_scores_content = rec.get_content_based_candidates(grade_df, k=k)
-        candidates_scores_user = rec.get_user_based_candidates(
-            user_id, grade_df, k=k, cnt=similar_user_cnt
+        candidates_scores_content = self.get_content_based_candidates(grade_df, k = k)
+        candidates_scores_user = self.get_user_based_candidates(
+            user_id, grade_df, k = k, cnt = similar_user_cnt
         )
 
         rec_scores = set(candidates_scores_content + candidates_scores_user)
-        rec_list = sorted(rec_scores, key=lambda x: x[1], reverse=True)
+        rec_list = sorted(rec_scores, key = lambda x: x[1], reverse = True)
         rec_list = [x[0] for x in rec_list]
 
         connection_info = "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"
         conn = psycopg2.connect(connection_info)
         query = (
-            "SELECT a.cid, a.cname, a.program, a.classification, b.crd, a.dept, a.lang, a.yr_sem, a.last_yr_sem FROM (SELECT * FROM rec_courses WHERE cid IN (%s)) a LEFT JOIN check_course b ON a.cid=b.cid;"
+                "SELECT a.cid, a.cname, a.program, a.classification, b.crd, a.dept, a.lang, a.yr_sem, a.last_yr_sem FROM (SELECT * FROM rec_courses WHERE cid IN (%s)) a LEFT JOIN check_course b ON a.cid=b.cid;"
             % str(rec_list)[1:-1]
         )
 
@@ -297,31 +314,30 @@ class Recommender:
             conn.close()
         df = df.set_index("cid").loc[rec_list].reset_index()
         if not include_undergrad:
-            df = df.loc[df["program"] == "대학원"].reset_index(drop=True)
+            df = df.loc[df["program"] == "대학원"].reset_index(drop = True)
         return df
 
-
-rec = Recommender(file_dir="data")
-
-if __name__ == "__main__":
-
-    uid = 2
-    connection_info = (
-        "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"
-    )
-    conn = psycopg2.connect(connection_info)
-
-    query = (
-        "SELECT cid_int, user_id, cid from rec_enrollment where up_id = (select max(re.up_id) from rec_enrollment re where user_id = %s)"
-        % uid
-    )
-
-    try:
-        user_grade_df = pd.read_sql(query, conn)
-    except Exception as e:
-        print("Error: ", e)
-    finally:
-        conn.close()
-    rec = Recommender(file_dir="data")
-    print(rec.get_recommendation(uid, user_grade_df))
-    print(rec.get_recommendation(uid, user_grade_df, include_undergrad=False))
+# rec = Recommender(file_dir="data")
+#
+# if __name__ == "__main__":
+#
+#     uid = 2
+#     connection_info = (
+#         "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"
+#     )
+#     conn = psycopg2.connect(connection_info)
+#
+#     query = (
+#         "SELECT cid_int, user_id, cid from rec_enrollment where up_id = (select max(re.up_id) from rec_enrollment re where user_id = %s)"
+#         % uid
+#     )
+#
+#     try:
+#         user_grade_df = pd.read_sql(query, conn)
+#     except Exception as e:
+#         print("Error: ", e)
+#     finally:
+#         conn.close()
+#     rec = Recommender(file_dir="data")
+#     print(rec.get_recommendation(uid, user_grade_df))
+#     print(rec.get_recommendation(uid, user_grade_df, include_undergrad=False))
