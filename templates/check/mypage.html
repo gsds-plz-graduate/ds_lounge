@@ -11,7 +11,7 @@
                     </h1>
                 </header>
                 {% if profile is None %}
-                    <p>Upload Excel Before Using This Page</p>
+                    <h3>Upload Excel Before Using This Page</h3>
                 {% else %}
                     <!-- Content -->
                     <hr class="major"/>
@@ -47,66 +47,73 @@
                             <div class="myp_in">
                                 <div class="myp_summary mp0">
                                     <h3 class="i_title ">
-                                        <span>Earned Credit information</span> (Current Simulation Date : {{ profile.uploaded_at }})
+                                        <span>Earned Credit information</span> (Current Simulation Date : {{ profile.uploaded_at | date:"Y/m/d" }})
                                     </h3>
                                     <div class="charttp2div">
+
                                         <div style="text-align: center; margin-bottom: 10px;"></div>
+                                        <caption>
+                                            <span>Passed Conditions</span>
+                                        </caption>
                                         <div class="table_type_b myp_surmmary_tbl stdcmplcond ">
                                             <div class="in">
-                                                <table class="myp_desc mart10" summary="Earned Credits info">
-                                                    <caption>
-                                                        <span>Passed Conditions</span>
-                                                    </caption>
-                                                    <thead id="passedCondition"></thead>
+                                                <table class="myp_desc mart10">
+
+                                                    <thead id="passedCondition">
+                                                    {% for i in profile.passed %}
+                                                    {% endfor %}
+                                                    </thead>
                                                     <tbody id="passedYn">
+                                                    {% for i in profile.passed %}
+                                                    {% endfor %}
                                                     </tbody>
                                                 </table>
 
                                             </div>
                                         </div>
-                                        <hr class="major"/>
-                                        <h3 class="i_title ">
-                                            <span>Graduation Requirement Simulation</span> by Major
-                                        </h3>
-                                        <div class="table_type_b myp_surmmary_tbl stdcmplcond ">
-                                            <div class="in">
-                                                <table summary="<span>Graduation Requirement Simulation</span> by Major">
-                                                    <caption>
-                                                        <span>Graduation Requirement Simulation</span> by Major
-                                                    </caption>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th scope="col" rowspan="2">Major Category</th>
-                                                        <th scope="col" rowspan="2">Major Name</th>
-                                                        <th scope="col" colspan="2">Major Required Courses Acquired Credits</th>
-                                                        <th scope="col" colspan="2">Major Elective Courses Credit Acquisition</th>
-                                                        <th scope="col" rowspan="2">Acquired Credits Total</th>
-                                                        <th scope="col" rowspan="2">Total GPA</th>
-                                                        <th scope="col" rowspan="2">GPA</th>
-                                                        <th scope="col" rowspan="2">Result</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="col">Standard Credit</th>
-                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>
-                                                        <th scope="col">Standard Credit</th>
-                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Major</td>
-                                                        <td class="tal">Data Science Major</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td style="background-color:#fb000017;color:#f37060;">Fail</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        {#                                        <hr class="major"/>#}
+                                        {#                                        <h3 class="i_title ">#}
+                                        {#                                            <span>Graduation Requirement Simulation</span> by Major#}
+                                        {#                                        </h3>#}
+                                        {#                                        <div class="table_type_b myp_surmmary_tbl stdcmplcond ">#}
+                                        {#                                            <div class="in">#}
+                                        {#                                                <table>#}
+                                        {#                                                    <caption>#}
+                                        {#                                                        <span>Graduation Requirement Simulation</span> by Major#}
+                                        {#                                                    </caption>#}
+                                        {#                                                    <tbody>#}
+                                        {#                                                    <tr>#}
+                                        {#                                                        <th scope="col" rowspan="2">Major Category</th>#}
+                                        {#                                                        <th scope="col" rowspan="2">Major Name</th>#}
+                                        {#                                                        <th scope="col" colspan="2">Major Required Courses Acquired Credits</th>#}
+                                        {#                                                        <th scope="col" colspan="2">Major Elective Courses Credit Acquisition</th>#}
+                                        {#                                                        <th scope="col" rowspan="2">Acquired Credits Total</th>#}
+                                        {#                                                        <th scope="col" rowspan="2">Total GPA</th>#}
+                                        {#                                                        <th scope="col" rowspan="2">GPA</th>#}
+                                        {#                                                        <th scope="col" rowspan="2">Result</th>#}
+                                        {#                                                    </tr>#}
+                                        {#                                                    <tr>#}
+                                        {#                                                        <th scope="col">Standard Credit</th>#}
+                                        {#                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>#}
+                                        {#                                                        <th scope="col">Standard Credit</th>#}
+                                        {#                                                        <th scope="col">Completed Crdts.(+Recognized Crdts.)</th>#}
+                                        {#                                                    </tr>#}
+                                        {#                                                    <tr>#}
+                                        {#                                                        <td>Major</td>#}
+                                        {#                                                        <td class="tal">Data Science Major</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td>0</td>#}
+                                        {#                                                        <td style="background-color:#fb000017;color:#f37060;">Fail</td>#}
+                                        {#                                                    </tr>#}
+                                        {#                                                    </tbody>#}
+                                        {#                                                </table>#}
+                                        {#                                            </div>#}
+                                        {#                                        </div>#}
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +127,7 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
         function decodeHTMLEntities(text) {
-            var entities = [
+            const entities = [
                 ['amp', '&'],
                 ['apos', '\''],
                 ['#x27', '\''],
@@ -133,7 +140,9 @@
                 ['quot', '"']
             ];
 
-            for (var i = 0, max = entities.length; i < max; ++i)
+            let i = 0;
+            const max = entities.length;
+            for (; i < max; ++i)
                 text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
             text = text.replace(/True/gi, 'true')
             text = text.replace(/False/gi, 'false')
@@ -148,7 +157,16 @@
 
         for (const i in data) {
             header += '<th>' + i + '</th>'
-            body += '<td>' + data[i] + '</td>'
+            if (data[i] === true) {
+                body += '<td style="background-color:#00fb0017;color:#60f370;">' + 'Passed' + '</td>'
+            } else if (data[i] === false) {
+                body += '<td style="background-color:#fb000017;color:#f37060;">' + 'Failed' + '</td>'
+            } else {
+                if (data['수료 학점 검사'])
+                    body += '<td style="background-color:#00fb0017;color:#60f370;">' + data[i] + '</td>'
+                else
+                    body += '<td style="background-color:#fb000017;color:#f37060;">' + data[i] + '</td>'
+            }
         }
         header += '</tr>'
         body += '</tr>'
