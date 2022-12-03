@@ -28,7 +28,9 @@ urlpatterns = [
     path('google-login/', include('allauth.urls')),
     path('excel/', excelupload.views.excel_upload),
     path('check/', include('check.urls')),
-    path('mypage/', check.views.mypage, name = "mypage")
+    path('mypage/', check.views.mypage, name = "mypage"),
+    path('common/', include('common.urls')),
+    path('recommendation/', include('recommendation.urls'))
 ]
-urlpatterns += static(settings.STATIC_URL, document_root =settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
