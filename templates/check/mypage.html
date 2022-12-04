@@ -32,7 +32,19 @@
                             </li>
                         </ul>
                     </div>
+                    <input type="checkbox" id="include_undergrad"
+                            {% if profile.include_undergrad %}
+                           checked
+                            {% endif %}
+                    >
+                    <label for="include_undergrad">include undergraduate subjects</label>
 
+                    <input type="checkbox" id="share_yn"
+                            {% if profile.share_timetable %}
+                           checked
+                            {% endif %}
+                    >
+                    <label for="share_yn">Do you want to share your timetable?</label>
                     <hr class="major"/>
                     <br>
                     <div class="mycontainer">
@@ -126,6 +138,29 @@
     </div>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
         function decodeHTMLEntities(text) {
             const entities = [
                 ['amp', '&'],
@@ -172,6 +207,50 @@
         body += '</tr>'
         $(header).appendTo($('#passedCondition'))
         $(body).appendTo($('#passedYn'))
+
+        $('#include_undergrad').change(function () {
+            let param = {'include_undergrad': $('#include_undergrad').is(':checked')}
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '/common/inclugrd/',
+                dataType: 'json',
+                type: 'POST',
+                data: JSON.stringify(param),
+                success: function (data) {
+
+                }
+            });
+        });
+
+        $('#share_yn').change(function () {
+            let param = {'share_yn': $('#share_yn').is(':checked')}
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            $.ajax({
+                url: '/common/shreyn/',
+                dataType: 'json',
+                type: 'POST',
+                data: JSON.stringify(param),
+                success: function (data) {
+
+                }
+            });
+        });
 
     </script>
 {% endblock %}
