@@ -138,12 +138,12 @@ class Candidate_user_generate:
         # user_list = list(self.enroll_idx['cid'].loc[id]) # User가 들은 과목
 
         # 예외 처리 : 유사한 사용자가 없으면 전체 과목 리턴
-        if response == None:
+        if response is None:
             ################################################################################################
             result_list = list(self.course["cid"])  # 전체 과목 id list
             for value in list(self.enroll_idx["cid"].loc[id]):  # User가 들은 과목 제외
                 if (
-                    value in result_list
+                        value in result_list
                 ):  # 조건추가 (혜령): user가 들은 과목중에 cid_list에 없는 과목이 있을 수도 있으므로 체크 필요
                     result_list.remove(value)
             return result_list

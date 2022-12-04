@@ -1,1 +1,114 @@
 {% extends 'base.html' %}
+{% load share_pagination %}
+{% block content %}
+    <div id="main" class="alt">
+
+        <!-- One -->
+        <section id="one">
+            <div class="inner">
+                <header class="major">
+                    <h1>Share Timetables</h1>
+                </header>
+            </div>
+        </section>
+    </div>
+
+    <div class="bbs-wrap">
+        <div class="con-box">
+            <table>
+                <caption><strong>Course Sharing Table</strong></caption>
+                <colgroup>
+                    <col style="width: 13%;">
+                    <col>
+                    <col style="width: 17%;">
+                    <col style="width: 110px;" class="hide">
+                    <col style="width: 110px;" class="hide">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col"><span lang="ko">TimeTable ID</span></th>
+                    <th scope="col"><span lang="ko">Title</span></th>
+                    <th scope="col"><span lang="ko">Student NickName</span></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% if page_obj %}
+                    {% for table in page_obj %}
+                        <tr>
+                            <td>
+                                {{ forloop.counter0|add:page_obj.start_index }}
+                            </td>
+                            <td class="ta-left">
+                                <a href="">
+                                    <span>TimeTable of User-ID</span>
+                                </a>
+                            </td>
+                            <td>Anonymous one</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td colspan="3">No Shared Timetables</td>
+                {% endif %}
+                {#                <tr>#}
+                {#                    <td>1</td>#}
+                {##}
+                {##}
+                {#                    <td class="ta-left">#}
+                {#                        <a href="">#}
+                {#                            <span>TimeTable of User-ID</span>#}
+                {#                        </a>#}
+                {#                    </td>#}
+                {#                    <td>Anonymous one</td>#}
+                {#                </tr>#}
+                {##}
+                {#                <tr class="even">#}
+                {#                    <td>2</td>#}
+                {#                    <td class="ta-left">#}
+                {#                        <a href="">#}
+                {#                            <span>TimeTable of User-ID</span>#}
+                {#                        </a>#}
+                {#                    </td>#}
+                {#                    <td>Anonymous Two</td>#}
+                {#                </tr>#}
+                </tbody>
+            </table>
+            <div id="paging">
+                <ul class="pagination align-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page">
+                            <a class="page-link" href="/common/share/?page={{ page_obj.previous_page_number }}">이전</a>
+                        </li>
+                    {% else %}
+                        <li class="page disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page_number in page_obj.paginator.page_range %}
+                        {% if page_number == page_obj.number %}
+                            <li class="page active" aria-current="page">
+                                <a class="page-link" href="/common/share?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page">
+                                <a class="page-link" href="/common/share?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+                        <li class="page">
+                            <a class="page-link" href="/common/share/?page={{ page_obj.next_page_number }}">다음</a>
+                        </li>
+                    {% else %}
+                        <li class="page disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
