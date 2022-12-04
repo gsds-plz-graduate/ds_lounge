@@ -1,7 +1,34 @@
 {% extends 'base.html' %}
 {% load share_pagination %}
 {% block content %}
-    <div id="main" class="alt">
+    <style>
+        .con-box {
+            padding: 32px 40px;
+            margin-bottom: 15px;
+            border: 1.5px solid #c7d1de;
+            border-radius: 10px;
+            max-width: 85%;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .main-grid {
+            letter-spacing: -1px;
+            padding-bottom: 200px;
+            overflow: hidden;
+        }
+
+        div {
+            display: block;
+        }
+
+        *:after, *:before {
+            box-sizing: border-box;
+        }
+    </style>
+    <div id="main" class="alt is-preload">
 
         <!-- One -->
         <section id="one">
@@ -16,13 +43,12 @@
     <div class="bbs-wrap">
         <div class="con-box">
             <table>
-                <caption><strong>Course Sharing Table</strong></caption>
+                <caption><strong>Course Sharing Table</strong>
+                    <hr>
+                </caption>
                 <colgroup>
-                    <col style="width: 13%;">
-                    <col>
-                    <col style="width: 17%;">
-                    <col style="width: 110px;" class="hide">
-                    <col style="width: 110px;" class="hide">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;" class="hide">
                 </colgroup>
                 <thead>
                 <tr>
@@ -31,7 +57,6 @@
                     <th scope="col"><span lang="ko">Admission year</span></th>
                 </tr>
                 </thead>
-
                 <tbody>
                 {% if page_obj %}
                     {% for table in page_obj %}
@@ -40,7 +65,7 @@
                                 {{ forloop.counter0|add:page_obj.start_index }}
                             </td>
                             <td class="ta-left">
-                                <a href="#" data-toggle="modal" data-target="#myModal">
+                                <a href="/common/detail/{{ table.user_id }}/">
                                     <span id="myBtn">TimeTable of Anomymous user {{ table.user_id }}</span>
                                 </a>
                             </td>
