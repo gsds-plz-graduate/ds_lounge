@@ -212,6 +212,7 @@ def can_graduate(enrollments, documents):
         count_paper = 0
         credit_paper = 0
         credit_non_paper = 0
+        crd_sum = 0
 
         checker_common = True  # 공통과목 학점기준
         credit_common = 0
@@ -232,6 +233,8 @@ def can_graduate(enrollments, documents):
 
         enrollments_mandatory = [enrollments_mldl1, enrollments_mldl2, enrollments_bkms1, enrollments_bkms2, enrollments_com1, enrollments_com2, enrollments_proj]
 
+        credit_mandatory = enrollments.filter(gbn = '석사전필').aggregate(Sum('crd'))['crd__sum']
+
         if False in enrollments_mandatory:
             checker_ms = False
 
@@ -245,13 +248,16 @@ def can_graduate(enrollments, documents):
             checker_seminar = False
 
         enrollment_select = enrollments.filter(gbn = '선택')
-        count_paper = enrollment_select.filter(cid_int = 9571)
+        count_paper = enrollment_select.filter(cid_int = 9571).count()
         credit_non_paper = enrollment_select.exclude(cid_int = 9571).aggregate(Sum('crd'))['crd__sum']
+        if credit_non_paper is None:
+            credit_non_paper = 0
 
         if documents.degree == '석사':  # 석사라면
             if count_paper == 0:  # 논문과목을 한번도 안들었다면.
                 checker_paper = False
             valid_paper = min(count_paper, 2)  # 2과목을 넘어서면 의미없다.
+            credit_paper = valid_paper*3
 
             if credit_non_paper == 0:  # 선택과목(논문과목 제외) 1과목을 들어야한다.
                 checker_select = False
@@ -271,6 +277,7 @@ def can_graduate(enrollments, documents):
             if credit_paper + credit_non_paper < 18:
                 checker_select = False
 
+        crd_sum = credit_common + credit_paper + credit_non_paper + credit_mandatory
         print_list = ['석사 전필과목 검사', '선택 과목 검사', '논문 연구 검사', '공통 과목 검사', '세미나 검사', '공통 과목 검사(세미나 제외)']
         checkers = [checker_ms, checker_select, checker_paper, checker_common, checker_seminar, checker_non_seminar]
 

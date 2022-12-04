@@ -11,7 +11,7 @@ def excel_upload(request):
     if request.method == 'POST':
         form = DocumentForm()
         try:
-            user_doc = Document.objects.filter(user = get_user(request).id).first()
+            user_doc = Document.objects.filter(user = get_user(request).id).last()
             form = DocumentForm(request.POST, request.FILES)
         except Document.DoesNotExist:
             form = DocumentForm(request.POST, request.FILES)
@@ -26,7 +26,7 @@ def excel_upload(request):
     else:
         form = DocumentForm()
         try:
-            user_doc = Document.objects.filter(user = get_user(request).id).first()
+            user_doc = Document.objects.filter(user = get_user(request).id).last()
             form.fields['student_number'].initial = user_doc.student_number
         except Document.DoesNotExist:
             pass
