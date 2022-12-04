@@ -430,7 +430,7 @@
             let card = ""
             card += '<div class="item ' + type + '" id=item_' + keys + '">'
             card += '<a href="">'
-            card += '<span class="tags  ' + type + '">전선</span>'
+            card += '<span class="tags  ' + type + '">' + data.classification[keys] + '</span>'
             card += '<span class="r_num"></span><span class="titles titles1" title="' + data.cname[keys] + ' (' + data.cid[keys] + ')">' + data.cname[keys] + '<span class="titles1_code"><br>' + data.cid[keys] + '</span></span>'
             card += '<span class="titles titles2" title="과정 : ' + data.program[keys] + '"><b>과정</b> : ' + data.program[keys] + '</span>'
             if (data.dept[keys].includes('_')) {
