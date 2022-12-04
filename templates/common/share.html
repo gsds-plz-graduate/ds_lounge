@@ -28,7 +28,7 @@
                 <tr>
                     <th scope="col"><span lang="ko">TimeTable ID</span></th>
                     <th scope="col"><span lang="ko">Title</span></th>
-                    <th scope="col"><span lang="ko">Student NickName</span></th>
+                    <th scope="col"><span lang="ko">Admission year</span></th>
                 </tr>
                 </thead>
 
@@ -40,11 +40,11 @@
                                 {{ forloop.counter0|add:page_obj.start_index }}
                             </td>
                             <td class="ta-left">
-                                <a href="">
-                                    <span>TimeTable of User-ID</span>
+                                <a href="#" data-toggle="modal" data-target="#myModal">
+                                    <span id="myBtn">TimeTable of Anomymous user {{ table.user_id }}</span>
                                 </a>
                             </td>
-                            <td>Anonymous one</td>
+                            <td>{{ table.student_number|slice:":4" }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -73,11 +73,13 @@
                 {#                </tr>#}
                 </tbody>
             </table>
+
+
             <div id="paging">
                 <ul class="pagination align-center">
                     {% if page_obj.has_previous %}
                         <li class="page">
-                            <a class="page-link" href="/common/share/?page={{ page_obj.previous_page_number }}">이전</a>
+                            <a class="page-link" href="/common/share?page={{ page_obj.previous_page_number }}">이전</a>
                         </li>
                     {% else %}
                         <li class="page disabled">
@@ -100,7 +102,7 @@
 
                     {% if page_obj.has_next %}
                         <li class="page">
-                            <a class="page-link" href="/common/share/?page={{ page_obj.next_page_number }}">다음</a>
+                            <a class="page-link" href="/common/share?page={{ page_obj.next_page_number }}">다음</a>
                         </li>
                     {% else %}
                         <li class="page disabled">
