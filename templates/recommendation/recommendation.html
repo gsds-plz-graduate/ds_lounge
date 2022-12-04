@@ -1,5 +1,385 @@
 {% extends 'base.html' %}
 {% block content %}
+    <div id="main" class="alt">
+        <!-- One -->
+        <section id="one">
+            <div class="inner">
+                <header class="major">
+                    <h1 class="myptitle">
+                        Recommended Subjects
+                    </h1>
+                </header>
+                <hr class="major"/>
+
+                <style>
+                    /*Recommendation Tab CSS*/
+                    /*추천 알고리즘 탭*/
+                    .subpage .tab_type_c .in {
+                        width: 100%;
+                    }
+
+                    .subpage .mytop .in {
+                        text-align: left;
+                    }
+
+                    .index .wrap .in {
+                        padding: 0px;
+                        margin: 0 auto;
+                    }
+
+                    .tab_type_c .in {
+                        display: flex;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .tab_type_c a.on {
+                        background-color: #0f3e8e;
+                        border-color: #0f3e8e;
+                        color: white;
+                    }
+
+                    .tab_type_c a {
+                        flex-grow: 1;
+                        display: flex;
+                        padding: 0 5px;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        line-height: 53px;
+                        height: 40px;
+                        word-break: keep-all;
+                        border: 1px solid #e1e1e1;
+                        border-right: none;
+                        padding: 0;
+                        line-height: 1.2;
+                        color: aliceblue;
+                        font-size: 13px;
+                        text-align: center;
+                        font-weight: bold;
+                        align-items: center;
+
+                    }
+
+                    a {
+                        margin: 0;
+                        padding: 0;
+                        vertical-align: baseline;
+                        text-decoration: none;
+                    }
+
+                    ::selection {
+                        background: #372d2a;
+                        color: white;
+                        text-shadow: none;
+                    }
+
+                    .table_title {
+                        font-size: 16px;
+                        color: white;
+                        display: inline-block;
+                        padding: 12px 0px;
+                    }
+
+                    .table_title .bolds {
+                        font-size: 1em;
+                        color: #f37060;
+                        display: inline-block;
+                        padding: 12px 0px;
+                    }
+
+                    .i_title {
+                        margin-top: 30px;
+                        padding-bottom: 10px;
+                        font-size: 22px;
+                    }
+
+                    .i_title {
+                        font-size: 24px;
+                        color: white;
+                        padding-bottom: 20px;
+                        margin-top: 50px;
+                        line-height: 1;
+                        font-weight: bold;
+                    }
+
+                    /*Recommendataion System CSS*/
+                    /*과목추천 카드테이블*/
+                    .rec_curriculum .rec_curriculum_in {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .rec_curriculum h4 {
+                        font-size: 1.167em;
+                        color: #fff;
+                        padding: 9px 10px;
+                        background-color: #132c70;
+                        font-size: 1.167em;
+                        border-bottom: 1px solid #f5f5f5
+                    }
+
+                    .rec_curriculum_innerbox {
+                        color: #000;
+                        position: relative;
+                    }
+
+                    .rec_curriculum_innerbox .item {
+                        min-height: 205px;
+                        position: relative;
+                        box-sizing: border-box;
+                        border: 1px solid #e1e1e1;
+                        border-radius: 0.5em;
+                    }
+
+                    .rec_curriculum_innerbox .item a {
+                        position: relative;
+                        display: block;
+                        padding: 25px;
+                        min-height: 225px;
+                        z-index: 2;
+                        background: aliceblue;
+                        border-radius: 0.5rem;
+                    }
+
+                    .rec_curriculum_innerbox .item .titles {
+                        display: inline-block;
+                        font-size: 1.1em;
+                        line-height: 1.3em;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: normal;
+                        color: #000;
+
+                    }
+
+                    .rec_curriculum_innerbox .item .titles1 {
+                        display: block;
+                        margin-bottom: 20px;
+                        padding-bottom: 10px;
+                        font-weight: bold;
+                        color: #000;
+                        border-bottom: 1px solid #e2e2e2;
+                    }
+
+                    .rec_curriculum_innerbox .item .titles2,
+                    .rec_curriculum_innerbox .item .titles3,
+                    .rec_curriculum_innerbox .item .titles4 {
+                        margin-top: 14px;
+                        padding-left: 13px;
+                        font-size: 14px;
+                    }
+
+                    .rec_curriculum_innerbox .item .titles2 {
+                        display: block;
+                        color: #555;
+                    }
+
+                    .rec_curriculum_innerbox .item .titles3 {
+                        margin-top: 5px;
+                    }
+
+                    .rec_curriculum_innerbox .item .titles4 {
+                        display: block;
+                        margin-top: 5px;
+                        color: #555
+                    }
+
+                    .rec_curriculum_innerbox .item .titles2,
+                    .rec_curriculum_innerbox .item .titles4 {
+                    {#background: url('../images/ic_dot.png') no-repeat left center;#}
+                    }
+
+                    .rec_curriculum_innerbox .item .titles2 span,
+                    .rec_curriculum_innerbox .item .titles2 b,
+                    .rec_curriculum_innerbox .item .titles4 span,
+                    .rec_curriculum_innerbox .item .titles4 b {
+                        font-size: 14px;
+                        color: #000;
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .tags {
+                        display: inline-flex;
+                        margin-bottom: 22px;
+                        padding: 5px; /* width: 120px; */
+                        font-size: 14px;
+                        color: #e42a05;
+                        line-height: 1.3;
+                        text-align: left;
+                        border: 1px solid #e42a05
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .r_num {
+                        position: absolute;
+                        top: 30px;
+                        right: 20px;
+                        font-size: 14px;
+                        color: #e42a05;
+                        font-weight: normal;
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .tags.type1 {
+                        color: #005c9e;
+                        border-color: #005c9e;
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .tags.type2 {
+                        color: #008c40;
+                        border-color: #008c40;
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .tags.type3 {
+                        color: #e4ac00;
+                        border-color: #e4ac00;
+                    }
+
+                    .rec_curriculum_innerbox .item:hover::after {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        content: '';
+                        border: 1px solid #e42a05;
+                        box-sizing: border-box;
+                    }
+
+                    .rec_curriculum_innerbox .item:hover {
+                        border-color: #e42a05;
+                    }
+
+                    .rec_curriculum_innerbox .item.type1:hover,
+                    .rec_curriculum_innerbox .item.type1:hover::after {
+                        border-color: #005c9e;
+                    }
+
+                    .rec_curriculum_innerbox .item.type2:hover,
+                    .rec_curriculum_innerbox .item.type2:hover::after {
+                        border-color: #008c40;
+                    }
+
+                    .rec_curriculum_innerbox .item.type3:hover,
+                    .rec_curriculum_innerbox .item.type3:hover::after {
+                        border-color: #e4ac00;
+                    }
+
+                    .rec_curriculum_innerbox .item_with_icon .item .titles1_code {
+                        display: block;
+                        margin-top: 20px;
+                        font-size: 14px;
+                        color: #555;
+                        font-weight: normal;
+                    }
+
+                    .rec_curriculum_innerbox .opend_items .item {
+                        display: inline-block;
+                        margin-right: 20px;
+                        margin-bottom: 10px;
+                        width: 214px;
+                    }
+
+                    .rec_curriculum_innerbox .opend_items {
+                        margin-right: -20px;
+                    }
+                </style>
+
+
+                <!-- 과목추천 탭 -->
+                {#                <div class="mytop">#}
+                {#                    <div class="in">#}
+                {#                        <div class="tab_type_c" style="margin-bottom: 28px">#}
+                {#                            <div class="in" id="rcmmType">#}
+                {#                                <a href="javascript:void(0);" class="on">전체</a>#}
+                {#                                <a href="javascript:void(0);" data-type="COLL">유사사용자 기반 (Rec1)</a>#}
+                {#                                <a href="javascript:void(0);" data-type="PRFL">개인선호 기반 (Rec2)</a>#}
+                {#                                <a href="javascript:void(0);" data-type="KGKY">분류(컨텐츠) 기반 (Rec3)</a>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </div>#}
+                {#                <hr class="major"/>#}
+
+
+                <!-- 과목추천 카드테이블 결과조회 -->
+                <div class="rec_curriculum_innerbox_wrapper">
+                    <div class="rec_curriculum_innerbox">
+                        <div class="opend_items item_with_icon" id="recommended_subjects">
+                            <!--
+                                                                            item 설명
+                                                                            item (type없음) : 논문교과목
+                                                                            item type1 : 전필
+                                                                            item type2 : 전선
+                                                                            item type3 : 교양 -->
+
+                            {#                            <div class="item  type2">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags  type2">전선</span>#}
+                            {#                                    <span class="r_num">Rec 3</span><span class="titles titles1" title="국제개발정책론 (876.501)">국제개발정책론<span class="titles1_code"><br>(876.501)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+                            {#                                    <span class="titles titles4" title="국제개발전공"><b>국제개발전공</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                            {##}
+                            {#                            <div class="item  type1">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags  type1">전필</span>#}
+                            {#                                    <span class="r_num">Rec 1</span><span class="titles titles1" title="인공지능 지식 및 구현 기초 (M3450.000400)">인공지능 지식 및 구현 기초<span class="titles1_code"><br>(M3450.000400)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+                            {#                                    <span class="titles titles4" title="AI융합교육학전공"><b>AI융합교육학전공</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                            {##}
+                            {##}
+                            {#                            <div class="item  type2">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags  type2">전선</span>#}
+                            {#                                    <span class="r_num">Rec 2</span><span class="titles titles1" title="인공지능과 도시 계획 및 설계 1 (M0.002900)">인공지능과 도시 계획 및 설계 1<span class="titles1_code"><br>(M0.002900)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+                            {#                                    <span class="titles titles4" title="도시및지역계획학전공"><b>도시및지역계획학전공</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                            {##}
+                            {##}
+                            {#                            <div class="item  type2">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags  type2">전선</span>#}
+                            {#                                    <span class="r_num">Rec 3</span><span class="titles titles1" title="인지과학세미나 (132.503)">인지과학세미나<span class="titles1_code"><br>(132.503)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+                            {#                                    <span class="titles titles4" title="협동과정  인지과학전공"><b>협동과정  인지과학전공</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                            {##}
+                            {#                            <div class="item ">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags ">논문</span>#}
+                            {#                                    <span class="r_num">Rec 2</span><span class="titles titles1" title="대학원논문연구 (457.803)">대학원논문연구<span class="titles1_code"><br>(457.803)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+                            {#                                    <span class="titles titles4" title="건설환경공학부"><b>건설환경공학부</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                            {##}
+                            {#                            <div class="item  type3">#}
+                            {#                                <a href="">#}
+                            {#                                    <span class="tags  type3">교양</span>#}
+                            {#                                    <span class="r_num">Rec 2</span><span class="titles titles1" title="체력단련 (051.018)">체력단련<span class="titles1_code"><br>(051.018)</span></span>#}
+                            {#                                    <span class="titles titles2" title="과정 : 학사"><b>과정</b> : 학사</span>#}
+                            {#                                    <span class="titles titles4" title="체육교육과"><b>체육교육과</b></span>#}
+                            {#                                    <span class="titles titles4" title="학점 : 1.0"><b>학점</b> : 1.0</span>#}
+                            {#                                </a>#}
+                            {#                            </div>#}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="net_grp" style="display:none"></div>
+            </div>
+        </section>
+    </div>
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
@@ -36,7 +416,64 @@
         let data = decodeUnicode(decodeHTMLEntities('{{ result }}'))
         data = data.replace('["', '')
         data = JSON.parse(data.replace('"]', ''))
-        console.log(data)
+        let maxHeight = 0
+        for (const keys in data.cid) {
+            let type = ""
+            if (data.classification[keys] === "전필") {
+                type = "type1"
+            } else if (data.classification[keys] === "전선") {
+                type = "type2"
+            } else if (data.classification[keys] === "교양") {
+                type = "type3"
+            }
+            let card = ""
+            card += '<div class="item ' + type + '" id=item_' + keys + '">'
+            card += '<a href="">'
+            card += '<span class="tags  ' + type + '">전선</span>'
+            card += '<span class="r_num"></span><span class="titles titles1" title="' + data.cname[keys] + ' (' + data.cid[keys] + ')">' + data.cname[keys] + '<span class="titles1_code"><br>' + data.cid[keys] + '</span></span>'
+            card += '<span class="titles titles2" title="과정 : ' + data.program[keys] + '"><b>과정</b> : ' + data.program[keys] + '</span>'
+            if (data.dept[keys].includes('_')) {
 
+                card += '<span class="titles titles4" title="' + data.dept[keys].split("_")[1] + '"><b>' + data.dept[keys].split("_")[1] + '</b></span>'
+            } else {
+
+                card += '<span class="titles titles4" title="' + data.dept[keys] + '"><b>' + data.dept[keys] + '</b></span>'
+            }
+            card += '<span class="titles titles4" title="학점 : ' + data.crd[keys].toFixed(1) + '"><b>학점</b> : ' + data.crd[keys].toFixed(1) + '</span>'
+            card += ' </a>'
+            card += '</div>'
+            $(card).appendTo($('#recommended_subjects'))
+        }
+
+        var height_array = $("span.titles.titles1").map(function () {
+            return $(this).height();
+        }).get();
+
+        var max_height = Math.max.apply(Math, height_array)
+
+        $("span.titles.titles1").map(function () {
+            $(this).height(max_height);
+        })
+
+        var height_array4 = $("span.titles.titles4").map(function () {
+            return $(this).height();
+        }).get();
+
+        var max_height4 = Math.max.apply(Math, height_array4)
+
+        $("span.titles.titles4").map(function () {
+            $(this).height(max_height4);
+        })
+
+
+        {#<div class="item  type2">#}
+        {#                    <a href="">#}
+        {#                        <span class="tags  type2">전선</span>#}
+        {#                        <span class="r_num">Rec 3</span><span class="titles titles1" title="국제개발정책론 (876.501)">국제개발정책론<span class="titles1_code"><br>(876.501)</span></span>#}
+        {#                        <span class="titles titles2" title="과정 : 대학원"><b>과정</b> : 대학원</span>#}
+        {#                        <span class="titles titles4" title="국제개발전공"><b>국제개발전공</b></span>#}
+        {#                        <span class="titles titles4" title="학점 : 3.0"><b>학점</b> : 3.0</span>#}
+        {#                    </a>#}
+        {#                </div>#}
     </script>
 {% endblock %}

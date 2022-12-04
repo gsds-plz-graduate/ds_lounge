@@ -44,16 +44,20 @@ def check(request):
     my_enrollment_val = my_enrollment.values_list('year', 'cid', 'cname', 'crd', 'gpa', 'gbn', 're')
 
     passed = can_graduate(my_enrollment, my_document)
-
-    new_profile = Profile(user = request.user, student_number = my_document.student_number, degree = my_document.degree, passed = passed)
-    new_profile.save()
-    return render(request, '../templates/check/mypage.html', {'profile': new_profile})
+    my_profile = Profile.objects.filter(user_id = request.user.id)
+    if my_profile.count() == 0:
+        my_profile = Profile(user = request.user, student_number = my_document.student_number, degree = my_document.degree, passed = passed)
+    else:
+        my_profile = my_profile.latest('updated_at')
+        my_profile.passed = passed
+    my_profile.save()
+    return render(request, '../templates/check/mypage.html', {'profile': my_profile})
 
 
 def mypage(request):
     my_profile = {}
     try:
-        my_profile = Profile.objects.filter(user_id = request.user.id).latest('uploaded_at')
+        my_profile = Profile.objects.filter(user_id = request.user.id).latest('updated_at')
     except:
         my_profile = ''
     return render(request, '../templates/check/mypage.html', {'profile': my_profile})

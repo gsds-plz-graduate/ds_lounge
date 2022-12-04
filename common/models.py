@@ -6,7 +6,8 @@ from django.db import models
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete = models.CASCADE
+        on_delete = models.CASCADE,
+        primary_key = True
     )
 
     student_number = models.CharField(max_length = 10, null = True)
@@ -15,7 +16,7 @@ class Profile(models.Model):
     include_undergrad = models.BooleanField(default = False)
     share_timetable = models.BooleanField(default = False)
     passed = models.JSONField(default = dict)
-    uploaded_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
     class Meta:
         db_table = 'user_extended'
