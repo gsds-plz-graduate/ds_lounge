@@ -17,7 +17,7 @@ warnings.filterwarnings(action = "ignore")
 
 def recommend(request):
     user_id = request.user.id
-    user_profile = Profile.objects.filter(user = user_id).latest('uploaded_at')
+    user_profile = Profile.objects.filter(user = user_id).latest('updated_at')
     recommended_courses = recommendation(uid = user_id, include_undergrad = user_profile.include_undergrad)
     return render(request, 'recommendation/recommendation.html', {'result': recommended_courses})
 
