@@ -6,6 +6,7 @@ from django.db.models import Max
 from django.shortcuts import render
 
 from check.models import Enrollment
+from common.models import Profile
 from .recommender import Recommender
 
 warnings.filterwarnings(action = "ignore")
@@ -16,7 +17,8 @@ warnings.filterwarnings(action = "ignore")
 
 def recommend(request):
     user_id = request.user.id
-    recommended_courses = recommendation(uid = user_id)
+    user_profile = Profile.objects.filter(user = user_id).latest('uploaded_at')
+    recommended_courses = recommendation(uid = user_id, include_undergrad = user_profile.include_undergrad)
     return render(request, 'recommendation/recommendation.html', {'result': recommended_courses})
 
 

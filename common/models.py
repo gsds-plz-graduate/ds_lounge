@@ -12,6 +12,8 @@ class Profile(models.Model):
     student_number = models.CharField(max_length = 10, null = True)
     degree_choices = (('석사', 'Master'), ('박사', 'Combined'), ('통합', 'Ph.D'))
     degree = models.CharField(max_length = 10, choices = degree_choices, default = '석사')
+    include_undergrad = models.BooleanField(default = False)
+    share_timetable = models.BooleanField(default = False)
     passed = models.JSONField(default = dict)
     uploaded_at = models.DateTimeField(auto_now_add = True)
 
