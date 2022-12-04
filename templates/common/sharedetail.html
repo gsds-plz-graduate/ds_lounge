@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <style>
+        .con-box {
+            padding: 32px 40px;
+            margin-bottom: 15px;
+            border: 1.5px solid #c7d1de;
+            border-radius: 10px;
+            max-width: 85%;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .main-grid {
+            letter-spacing: -1px;
+            padding-bottom: 200px;
+            overflow: hidden;
+        }
+
+        div {
+            display: block;
+        }
+
+        *:after, *:before {
+            box-sizing: border-box;
+        }
+    </style>
+    <div id="main" class="alt is-preload">
+
+        <!-- One -->
+        <section id="one">
+            <div class="inner">
+                <header class="major">
+                    <h1>Shared Timetables</h1>
+                </header>
+            </div>
+        </section>
+    </div>
+
+    <div class="bbs-wrap">
+        <div class="con-box">
+            <table>
+                <caption><strong>Timetables of Anonymous User</strong>
+                    <hr>
+                </caption>
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;" class="hide">
+                </colgroup>
+                <thead>
+                <tr>
+                    {% for course in recent_enrollments %}
+                        {% ifchanged course.year %}
+                            <th scope="col"><span lang="ko">Year {{ course.year }}</span></th>
+                        {% endifchanged %}
+                    {% endfor %}
+                    {#                    <th scope="col"><span lang="ko">Year</span></th>#}
+                    {#                    <th scope="col"><span lang="ko">Course ID</span></th>#}
+                    {#                    <th scope="col"><span lang="ko">Course name</span></th>#}
+                    {#                    <th scope="col"><span lang="ko">Course Credit</span></th>#}
+                    {#                    <th scope="col"><span lang="ko">Course Info</span></th>#}
+                </tr>
+                </thead>
+                <tbody id="courses">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        function decodeHTMLEntities(text) {
+            var entities = [
+                ['amp', '&'],
+                ['apos', '\''],
+                ['#x27', '\''],
+                ['#x2F', '/'],
+                ['#39', '\''],
+                ['#47', '/'],
+                ['lt', '<'],
+                ['gt', '>'],
+                ['nbsp', ' '],
+                ['quot', '"']
+            ];
+
+            for (var i = 0, max = entities.length; i < max; ++i)
+                text = text.replace(new RegExp('&' + entities[i][0] + ';', 'g'), entities[i][1]);
+            text = text.replace(/True/gi, 'true')
+            text = text.replace(/False/gi, 'false')
+            text = text.replace(/'/gi, '"')
+            return text;
+        }
+
+        function decodeUnicode(unicodeString) {
+            var r = /\\u([\d\w]{4})/gi;
+            unicodeString = unicodeString.replace(r, function (match, grp) {
+                return String.fromCharCode(parseInt(grp, 16));
+            });
+            return unescape(unicodeString);
+        }
+
+        let years = []
+        let data = {}
+        {% for course in recent_enrollments %}
+            {% ifchanged course.year %}
+                years.push({{ course.year }})
+                data[{{ course.year }}] = []
+            {% endifchanged %}
+            data[{{ course.year }}].push(JSON.parse(decodeUnicode(decodeHTMLEntities('{{ course }}'))))
+        {% endfor %}
+        let maxlen = 0
+        for (key in data) {
+            maxlen = Math.max(data[key].length, maxlen)
+        }
+
+        body = ""
+        for (let i = 0; i < maxlen; i++) {
+            body += "<tr>"
+            for (key in data) {
+                if (data[key][i] === undefined) {
+                    body += "<td></td>"
+                } else {
+                    body += "<td>" + data[key][i].cname + "</td>"
+                }
+            }
+            body += "</tr>"
+        }
+        $(body).appendTo($('#courses'))
+
+
+    </script>
+{% endblock %}
