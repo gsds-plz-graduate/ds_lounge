@@ -19,7 +19,7 @@ def share(request):
     # rec_up_ids = list(Enrollment.objects.values('user_id').annotate(rec_up_id = Max('up_id')).values_list('rec_up_id', flat = True))
     # share_list = Enrollment.objects.filter(up_id__in = rec_up_ids, user_id__in = share_id).values('user_id').annotate(rec_up_id = Max('up_id'))
     share_id_list = Profile.objects.filter(share_timetable = True)
-    paginator = Paginator(share_id_list, 2)
+    paginator = Paginator(share_id_list, 10)
     page_obj = paginator.page(request.GET.get('page', '1'))
     return render(request, 'common/share.html', {"page_obj": page_obj})
 
