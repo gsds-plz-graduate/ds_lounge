@@ -21,6 +21,10 @@ from django.urls import include, path
 import check.views
 import common.views
 import excelupload.views
+from common import views as common_views
+
+handler404 = common_views.customHandler404.as_view()
+handler500 = 'common.views.handler500'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
