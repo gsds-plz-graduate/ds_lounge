@@ -1,4 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    404
+    <style>
+        #out {
+            position: relative;
+            color: #f37060;
+            font-size: 5vh;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        #in {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <div id="out">
+        <div id="in">
+            Internal Server Error
+            <br/>
+            Try Again!
+        </div>
+    </div>
 {% endblock %}
