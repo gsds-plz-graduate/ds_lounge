@@ -11,3 +11,4 @@ scikit-learn==1.1.3
 numpy==1.23.5
 neo4j
 joblib~=1.2.0
+django-environ
