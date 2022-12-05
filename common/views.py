@@ -3,6 +3,7 @@ import json
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
+from django.views import generic
 
 from check.models import Enrollment
 from common.models import Profile
@@ -10,6 +11,18 @@ from excelupload.models import Document
 
 
 # Create your views here.
+
+class customHandler404(generic.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "error/404.html")
+
+
+def handler500(request):
+    response = render(request, "error/500.html")
+    response.status_code = 500
+    return response
+
+
 def home(request):
     return render(request, 'common/home.html')
 
