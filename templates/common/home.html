@@ -50,7 +50,11 @@
                     <img src="{% static 'images/pic05.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/recommendation/" class="link">Recommended Subjects</a></h3>
+                    {% if user.is_authenticated %}
+                        <h3><a href="/recommendation/" class="link">Recommended Subjects</a></h3>
+                    {% else %}
+                        <h3><a href="{% provider_login_url 'google' method='oauth2' next='/recommendation/' %}" class="link">Recommended Subjects</a></h3>
+                    {% endif %}
                     <p>recommended customized subjects based on users and hashtags</p>
                 </header>
             </article>
@@ -59,7 +63,11 @@
                     <img src="{% static 'images/pic06.jpg' %}" alt=""/>
                 </span>
                 <header class="major">
-                    <h3><a href="/common/share/" class="link">Share Timetables</a></h3>
+                    {% if user.is_authenticated %}
+                        <h3><a href="/common/share/" class="link">Share Timetables</a></h3>
+                    {% else %}
+                        <h3><a href="{% provider_login_url 'google' method='oauth2' next="/common/share/" %}" class="link">Share Timetables</a></h3>
+                    {% endif %}
                     <p>If you agree to share the timetable, you can view the timetable of other classmates</p>
                 </header>
             </article>

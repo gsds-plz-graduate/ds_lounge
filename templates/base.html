@@ -27,9 +27,15 @@
     <nav id="menu">
         <ul class="links">
             <li><a href="/">Home</a></li>
-            <li><a href="/excel/">Graduation Checker</a></li>
-            <li><a href="/recommendation/">Recommended subjects</a></li>
-            <li><a href="/common/share/">Share Timetables</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/excel/">Graduation Checker</a></li>
+                <li><a href="/recommendation/">Recommended subjects</a></li>
+                <li><a href="/common/share/">Share Timetables</a></li>
+            {% else %}
+                <li><a href="{% provider_login_url 'google' method='oauth2' next='/excel/' %}">Graduation Checker</a></li>
+                <li><a href="{% provider_login_url 'google' method='oauth2' next='/recommendation/' %}">Recommended subjects</a></li>
+                <li><a href="{% provider_login_url 'google' method='oauth2' next='/common/share/' %}">Share Timetables</a></li>
+            {% endif %}
         </ul>
         <ul class="actions stacked">
             {% if user.is_authenticated %}
