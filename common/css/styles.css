@@ -1,0 +1,49 @@
+.charttp2div .grapLegend ul {
+    list-style: none;
+    margin: 0 0 0 27px;
+    padding: 0;
+    text-align: left;
+}
+
+.charttp2div .grapLegend li {
+    display: inline-table;
+    margin: 6px 4px;
+    text-align: left;
+    width: 100%;
+}
+
+.charttp2div .grapLegend span.box {
+    position: relative;
+    padding: 1px 10px;
+    margin: 5px;
+    color: white;
+}
+
+.charttp2div .table_type_b .in table {
+    width: 100%;
+    min-width: 400px;
+    border-top: 2px solid grey;
+}
+
+.charttp2div .myp_summarys .myp_desc {
+    clear: both;
+    font-size: 1.125em;
+}
+
+.charttp2div .mart10 {
+    margin-top: 10px !important;
+}
+
+.charttp2div table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.charttp2div table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
