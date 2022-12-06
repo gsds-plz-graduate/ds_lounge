@@ -14,7 +14,9 @@ from excelupload.models import Document
 
 class customHandler404(generic.View):
     def get(self, request, *args, **kwargs):
-        return render(request, "error/404.html")
+        response = render(request, "error/404.html")
+        response.status_code = 404
+        return response
 
 
 def handler500(request):
