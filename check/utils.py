@@ -134,13 +134,16 @@ def can_graduate(enrollments, documents):
         # crd_sum = credit_common + count_math*3 + count_calculate*3
         # crd_sum += enrollments.filter(gbn = '응용').count()*3  # 응용과목 수강 횟수 * 학점(3)
         crd_basic = enrollments.filter(gbn = '기초').exclude(cid_int__in = [9599, 9576, 9565] + [9597, 9577, 9566])
-        if crd_basic.count() > 0:
-            crd_sum += crd_basic.aggregate(Sum('crd'))['crd__sum']
-        crd_sum += valid_paper*3  # 유효 논문연구강의 수강 횟수 * 학점(3)
-        crd_sum += count_calculate*3  # 계산과목 수강 횟수 * 학점(3)
-        crd_sum += count_select1*3  # 분석과목 수강 횟수 * 학점(3)
-        crd_sum += count_select2*3  # 응용과목 수강 횟수 * 학점(3)
-        crd_sum += credit_common
+        try:
+            if crd_basic.count() > 0:
+                crd_sum += crd_basic.aggregate(Sum('crd'))['crd__sum']
+            crd_sum += valid_paper*3  # 유효 논문연구강의 수강 횟수 * 학점(3)
+            crd_sum += count_calculate*3  # 계산과목 수강 횟수 * 학점(3)
+            crd_sum += count_select1*3  # 분석과목 수강 횟수 * 학점(3)
+            crd_sum += count_select2*3  # 응용과목 수강 횟수 * 학점(3)
+            crd_sum += credit_common
+        except TypeError:
+            crd_sum = 0
 
         print_list = ['논문 연구 검사', '계산 과목 검사', '공통 과목 검사(세미나 제외)', '세미나 검사', '분석 과목 검사', '응용 과목 검사']
         checkers = [checker_paper,
@@ -194,12 +197,14 @@ def can_graduate(enrollments, documents):
             if count_math + count_calculate < 6:
                 checker_calculate = False
                 checker_math = False
-
-        crd_sum = credit_common + count_math*3 + count_calculate*3
-        crd_sum += enrollments.filter(gbn = '응용').count()*3  # 응용과목 수강 횟수 * 학점(3)
-        crd_basic = enrollments.filter(gbn = '기초').exclude(cid_int__in = [9599, 9576, 9565] + [9597, 9577, 9566])
-        if crd_basic.count() > 0:
-            crd_sum += crd_basic.aggregate(Sum('crd'))['crd__sum']
+        try:
+            crd_sum = credit_common + count_math*3 + count_calculate*3
+            crd_sum += enrollments.filter(gbn = '응용').count()*3  # 응용과목 수강 횟수 * 학점(3)
+            crd_basic = enrollments.filter(gbn = '기초').exclude(cid_int__in = [9599, 9576, 9565] + [9597, 9577, 9566])
+            if crd_basic.count() > 0:
+                crd_sum += crd_basic.aggregate(Sum('crd'))['crd__sum']
+        except TypeError:
+            crd_sum = 0
 
         print_list = ['논문 연구 검사', '세미나 검사', '공통 과목 검사(세미나 제외)', '공통 과목 학점 검사', '수학 및 통계 과목 검사']
         checkers = [checker_paper, checker_seminar, checker_non_seminar, checker_common, checker_math]
@@ -276,8 +281,10 @@ def can_graduate(enrollments, documents):
 
             if credit_paper + credit_non_paper < 18:
                 checker_select = False
-
-        crd_sum = credit_common + credit_paper + credit_non_paper + credit_mandatory
+        try:
+            crd_sum = credit_common + credit_paper + credit_non_paper + credit_mandatory
+        except TypeError:
+            crd_sum = 0
         print_list = ['석사 전필과목 검사', '선택 과목 검사', '논문 연구 검사', '공통 과목 검사', '세미나 검사', '공통 과목 검사(세미나 제외)']
         checkers = [checker_ms, checker_select, checker_paper, checker_common, checker_seminar, checker_non_seminar]
 
