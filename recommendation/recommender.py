@@ -12,6 +12,7 @@ from neo4j import GraphDatabase
 from sklearn.metrics.pairwise import cosine_similarity
 
 from check.models import CheckCourse, Enrollment
+from group_project.settings import env
 
 warnings.filterwarnings(action = 'ignore')
 
@@ -58,7 +59,7 @@ class Neo4jConnection:
 class Candidate_user_generate:
     def __init__(self):
         # DB Connection Information
-        self.connection_info = "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"  # PostgreSQL 연결 주소
+        self.connection_info = env("POSTGRESQL_INFO")  # PostgreSQL 연결 주소
 
     def connect_SQL(self):  # DB에서 데이터를 불러옴
         # PostgreSQL 연결
@@ -103,11 +104,11 @@ class Candidate_user_generate:
         self, id, cnt
     ):  # 조건 쿼리, input : id - User ID / cnt : 몇명을 리턴할것인가? (default = 3)
         # DB Connection Information
-        dbname = "teamdb5"
-        uri_param = "bolt://147.47.200.145:37687"
-        user_param = "team5"
-        pwd_param = "snugraduate"
-        apoc_string = 'CALL apoc.load.jdbc("jdbc:postgresql://localhost:34543/teamdb5?user=team5&password=snugraduate",'
+        dbname = env("NAME")
+        uri_param = env("NEO4J_URI")
+        user_param = env("USER")
+        pwd_param = env("PASSWORD")
+        apoc_string = env("APOC_STRING")
 
         # Neo4j 연결
         conn = Neo4jConnection(uri=uri_param, user=user_param, pwd=pwd_param)
@@ -302,7 +303,7 @@ class Recommender:
         rec_list = sorted(rec_scores, key = lambda x: x[1], reverse = True)
         rec_list = [x[0] for x in rec_list]
 
-        connection_info = "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"
+        connection_info = env("POSTGRESQL_INFO")
         conn = psycopg2.connect(connection_info)
         query = (
                 "SELECT a.cid, a.cname, a.program, a.classification, b.crd, a.dept, a.lang, a.yr_sem, a.last_yr_sem FROM (SELECT * FROM rec_courses WHERE cid IN (%s)) a LEFT JOIN check_course b ON a.cid=b.cid;"
@@ -326,7 +327,7 @@ class Recommender:
 #
 #     uid = 2
 #     connection_info = (
-#         "host=147.47.200.145 dbname=teamdb5 user=team5 password=snugraduate port=34543"
+#         env("POSTGRESQL_INFO")
 #     )
 #     conn = psycopg2.connect(connection_info)
 #
