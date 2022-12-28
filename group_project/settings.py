@@ -111,11 +111,11 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE'  : 'django.db.backends.postgresql',
-        'NAME'    : "teamdb5",
-        'USER'    : "team5",
-        'PASSWORD': "snugraduate",
-        'HOST'    : '147.47.200.145',
-        'PORT'    : 34543,
+        'NAME'    : env("NAME"),
+        'USER'    : env("USER"),
+        'PASSWORD': env("PASSWORD"),
+        'HOST'    : env("HOST"),
+        'PORT'    : env("POSTGRESQL_PORT"),
     }
 }
 
@@ -201,7 +201,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
-    "https://*.bkms-team5-6nwxvl4rka-du.a.run.app"
+    "https://*.bkms-team5-6nwxvl4rka-du.a.run.app",
+    "https://*.snu-gsds-graduate-6nwxvl4rka-du.a.run.app",
 ]
 
 LOGGING = {
