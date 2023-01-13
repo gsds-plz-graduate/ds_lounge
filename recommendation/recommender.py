@@ -12,7 +12,7 @@ from neo4j import GraphDatabase
 from sklearn.metrics.pairwise import cosine_similarity
 
 from check.models import CheckCourse, Enrollment
-from group_project.settings import env
+from config.settings import env
 
 warnings.filterwarnings(action = 'ignore')
 

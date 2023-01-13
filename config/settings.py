@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import io
-import logging
 import os
 from pathlib import Path
 
@@ -19,7 +18,7 @@ import environ
 import google.auth
 from google.cloud import secretmanager
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the proNject like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(DEBUG = (bool, True))
@@ -53,7 +52,7 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ['*']
 
-WSGI_APPLICATION = "group_project.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 # Application definition
 
@@ -87,7 +86,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'group_project.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -108,14 +107,22 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES ={
+#     "default" : env.db()
+# }
+#
+# if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+#     DATABASES["default"]["HOST"] = "127.0.0.1"
+#     DATABASES["default"]["PORT"] = "54323"
+
 DATABASES = {
     'default': {
-        'ENGINE'  : 'django.db.backends.postgresql',
+        'ENGINE'  : 'django.db.backends.postgresql_psycopg2',
         'NAME'    : env("NAME"),
         'USER'    : env("USER"),
         'PASSWORD': env("PASSWORD"),
-        'HOST'    : env("HOST"),
-        'PORT'    : env("POSTGRESQL_PORT"),
+        'HOST'    : 'teamdb5?cloudSqlInstance=ornate-shine-367407:asia-northeast3:gsd-graduate',
+        "PORT"    : env("POSTGRESQL_PORT"),
     }
 }
 
