@@ -107,24 +107,24 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES ={
-#     "default" : env.db()
-# }
-#
-# if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
-#     DATABASES["default"]["HOST"] = "127.0.0.1"
-#     DATABASES["default"]["PORT"] = "54323"
-
-DATABASES = {
-    'default': {
-        'ENGINE'  : 'django.db.backends.postgresql_psycopg2',
-        'NAME'    : env("NAME"),
-        'USER'    : env("USER"),
-        'PASSWORD': env("PASSWORD"),
-        'HOST'    : 'teamdb5?cloudSqlInstance=ornate-shine-367407:asia-northeast3:gsd-graduate',
-        "PORT"    : env("POSTGRESQL_PORT"),
-    }
+DATABASES ={
+    "default" : env.db()
 }
+
+if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+    DATABASES["default"]["HOST"] = "127.0.0.1"
+    DATABASES["default"]["PORT"] = "54323"
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE'  : 'django.db.backends.postgresql_psycopg2',
+#         'NAME'    : env("NAME"),
+#         'USER'    : env("USER"),
+#         'PASSWORD': env("PASSWORD"),
+#         'HOST'    : 'teamdb5?cloudSqlInstance=ornate-shine-367407:asia-northeast3:gsd-graduate',
+#         "PORT"    : env("POSTGRESQL_PORT"),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -210,6 +210,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "https://*.bkms-team5-6nwxvl4rka-du.a.run.app",
     "https://*.snu-gsds-graduate-6nwxvl4rka-du.a.run.app",
+    "*"
 ]
 
 LOGGING = {
