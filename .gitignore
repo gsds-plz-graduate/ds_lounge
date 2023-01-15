@@ -1,3 +1,4 @@
 ./media/documents
 *.csv!
 /group_project/settings.py
+*.Ds_store
