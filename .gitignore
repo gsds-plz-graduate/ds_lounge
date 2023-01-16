@@ -2,3 +2,5 @@
 *.csv!
 /group_project/settings.py
 *.Ds_store
+.idea
+config/__pycache__/
