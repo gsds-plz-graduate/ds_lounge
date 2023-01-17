@@ -11,5 +11,5 @@ steps:
       - run
       - --filename=dslounge.yaml
       - --image=gcr.io/ornate-shine-367407/jihoopark:latest
-      - --location=asia-northeast3
+      - --location=asia-northeast3-b
       - --cluster=dslounge
