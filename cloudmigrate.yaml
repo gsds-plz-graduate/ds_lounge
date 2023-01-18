@@ -1,0 +1,15 @@
+steps:
+  - id: 'build'
+    name: "gcr.io/cloud-builders/docker"
+    args: [ "build", "-t", "gcr.io/ornate-shine-367407/jihoopark:latest", "." ]
+  - id: 'publish'
+    name: "gcr.io/cloud-builders/docker"
+    args: [ "push", "gcr.io/ornate-shine-367407/jihoopark:latest" ]
+  - id: 'deploy to gke'
+    name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=dslounge.yaml
+      - --image=gcr.io/ornate-shine-367407/jihoopark:latest
+      - --location=asia-northeast3-b
+      - --cluster=dslounge

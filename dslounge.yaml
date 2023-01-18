@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dslounge
+  labels:
+    app: dslounge
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dslounge
+  template:
+    metadata:
+      labels:
+        app: dslounge
+    spec:
+      containers:
+      - name: dslounge-app
+        # Replace  with your project ID or use `make template`
+        image: gcr.io/ornate-shine-367407/jihoopark
+        # This setting makes nodes pull the docker image every time before
+        # starting the pod. This is useful when debugging, but should be turned
+        # off in production.
+        imagePullPolicy: Always
+        env:
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: database
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: password
+        ports:
+        - containerPort: 8080
+
+      - image: gcr.io/cloudsql-docker/gce-proxy:1.16
+        name: cloudsql-proxy
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=ornate-shine-367407:asia-northeast3:gsd-graduate=tcp:5432",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-oauth-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+      volumes:
+        - name: cloudsql-oauth-credentials
+          secret:
+            secretName: cloudsql-oauth-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dslounge
+  labels:
+    app: dslounge
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  loadBalancerIP: "34.64.127.228"
+  selector:
+    app: dslounge
